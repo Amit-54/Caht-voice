@@ -18,6 +18,7 @@
             --transition-speed: 0.3s;
             --brand-purple: #6a0dad;
             --brand-purple-light: #9370db;
+            --highlight-bg: rgba(106, 13, 173, 0.2);
         }
         
         .light-theme {
@@ -32,6 +33,8 @@
             --sent-message-bg: var(--brand-purple-light);
             --sent-message-text: #ffffff;
             --icon-primary: #54656f;
+            --reaction-bg: #e9edef;
+            --reaction-bg-active: var(--brand-purple-light);
         }
 
         .dark-theme {
@@ -46,6 +49,8 @@
             --sent-message-bg: #005c4b;
             --sent-message-text: #e9edef;
             --icon-primary: #aebac1;
+            --reaction-bg: #2a3942;
+            --reaction-bg-active: var(--brand-purple);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -120,24 +125,52 @@
         #chat-header .chat-name { font-weight: 500; }
         #chat-header .chat-status { font-size: 0.8rem; color: var(--text-secondary); }
         #chat-header .icon-btn { font-size: 1.2rem; color: var(--icon-primary); margin-left: 10px; padding: 8px; border-radius: 50%; }
-        #message-area { flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column-reverse; background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 400V0h400v400H0zM194 200v200h12V200h-12z'/%3E%3C/g%3E%3C/svg%3E"); }
-        .dark-theme #message-area { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ4OCwgMjAyMC8wNy8xMC0yMjowNjowNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIyLjAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NkY4ODhBMkY0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NkY4ODhBMzQ0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2Rjg4OEEyRDQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2Rjg4OEEyRTQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQ9+YAAAAFCSURBVHja7N3bAoAgEADBo+/+py2BVEpl/h7w5wSBj5W8lG03wz4z47wz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wz4/WR8CDAD1iRjDYo79hQAAAABJRU5ErkJggg=="); }
-        .message-container { display: flex; flex-direction: column; margin-bottom: 2px; max-width: 75%; }
+        #message-area { flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column-reverse; background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 400V0h400v400H0zM194 200v200h12V200h-12z'/%3E%3C/g%3E%3C/svg%3E"); }
+        .dark-theme #message-area { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ4OCwgMjAyMC8wNy8xMC0yMjowNjowNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIyLjAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NkY4ODhBMkY0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NkY4ODhBMzQ0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2Rjg4OEEyRDQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2Rjg4OEEyRTQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQ9+YAAAAFCSURBVHja7N3bAoAgEADBo+/+py2BVEpl/h7w5wSBj5W8lG03wz4z47wz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wz4/WR8CDAD1iRjDYo79hQAAAABJRU5ErkJggg=="); }
+        .message-container { display: flex; flex-direction: column; max-width: 75%; position: relative; padding: 0 8px; margin-bottom: 12px; }
+        .message-container:hover .message-actions { opacity: 1; }
         .message-container.sent { align-self: flex-end; align-items: flex-end; }
         .message-container.received { align-self: flex-start; align-items: flex-start; }
-        .message-bubble { padding: 8px 12px; border-radius: 12px; position: relative; word-wrap: break-word; max-width: 100%; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
-        .message-container.sent .message-bubble { background: var(--sent-message-bg); color: var(--sent-message-text); border-bottom-right-radius: 2px; }
-        .message-container.received .message-bubble { background: var(--bg-secondary); border-bottom-left-radius: 2px; }
-        .message-content { margin-right: 50px; white-space: pre-wrap; word-break: break-word; color: inherit; }
-        .message-meta { position: absolute; bottom: 5px; right: 8px; font-size: 0.7rem; color: var(--text-secondary); display: flex; align-items: center; }
-        .message-container.sent .message-meta { color: rgba(255,255,255,0.7); }
+        .message-bubble { padding: 8px 12px; border-radius: 18px; position: relative; word-wrap: break-word; max-width: 100%; box-shadow: 0 1px 1px rgba(0,0,0,0.1); user-select: none; z-index: 1; }
+        .message-container.sent .message-bubble { background: var(--sent-message-bg); color: var(--sent-message-text); border-bottom-right-radius: 4px; }
+        .message-container.received .message-bubble { background: var(--bg-secondary); border-bottom-left-radius: 4px; }
+        .message-content { min-height: 20px; white-space: pre-wrap; word-break: break-word; color: inherit; }
+        .message-meta { font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; margin-top: 4px; }
+        .message-container.sent .message-meta { justify-content: flex-end; }
         .message-meta .fa-solid { font-size: 0.9rem; margin-left: 3px; }
         .message-meta .seen { color: #53bdeb; }
-        .message-image { max-width: 300px; max-height: 300px; border-radius: 8px; cursor: pointer; object-fit: cover; display: block; }
+        .message-meta .edited-indicator { font-style: italic; margin-right: 5px; }
+        .message-image { max-width: 300px; max-height: 300px; border-radius: 12px; cursor: pointer; object-fit: cover; display: block; }
         .message-sticker { max-width: 150px; max-height: 150px; }
+        .message-highlight { background-color: var(--highlight-bg) !important; border-radius: 8px; transition: background-color 0.5s; }
+        
+        /* Message Actions & Reactions */
+        .message-actions { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; opacity: 0; transition: opacity 0.2s; }
+        .message-container.sent .message-actions { left: -40px; }
+        .message-container.received .message-actions { right: -40px; }
+        .message-actions-btn { background: var(--bg-tertiary); color: var(--icon-primary); border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; box-shadow: var(--shadow-primary); }
+        .reactions-container { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+        .reaction-item { background: var(--reaction-bg); border-radius: 10px; padding: 2px 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; cursor: pointer; border: 1px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .reaction-item.user-reacted { background: var(--reaction-bg-active); color: white; border-color: var(--brand-purple); }
+        #reaction-picker { display: none; position: fixed; background: var(--bg-secondary); padding: 5px; border-radius: 20px; box-shadow: var(--shadow-primary); display: flex; gap: 5px; z-index: 1201; }
+        .reaction-picker-emoji { font-size: 1.5rem; padding: 5px; border-radius: 50%; cursor: pointer; transition: transform 0.2s; }
+        .reaction-picker-emoji:hover { transform: scale(1.2); }
 
-        #message-input-container { display: flex; align-items: flex-end; padding: 10px 16px; background: var(--bg-tertiary); flex-shrink: 0; position: relative; }
-        #message-input-container .icon-btn { font-size: 1.4rem; color: var(--icon-primary); padding: 10px; }
+        /* Reply & Edit Styles */
+        .reply-quote, .edit-quote { background: rgba(0,0,0,0.05); padding: 8px; border-left: 3px solid var(--brand-purple); border-radius: 4px; margin-bottom: 5px; }
+        .dark-theme .reply-quote, .dark-theme .edit-quote { background: rgba(255,255,255,0.05); }
+        .reply-quote { cursor: pointer; }
+        .quote-sender { font-weight: 600; font-size: 0.9em; color: var(--brand-purple); }
+        .quote-content { font-size: 0.9em; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+        
+        #message-input-container { display: flex; align-items: flex-end; padding: 10px 16px; background: var(--bg-tertiary); flex-shrink: 0; position: relative; flex-direction: column;}
+        .context-bar { width: 100%; background: var(--bg-primary); padding: 8px 12px; border-radius: 12px 12px 0 0; margin-bottom: -10px; display: none; justify-content: space-between; align-items: center; }
+        .context-bar.active { display: flex; }
+        .context-bar .context-info .quote-sender { color: var(--brand-purple); }
+        .context-bar .context-info .quote-content { color: var(--text-secondary); }
+        .context-bar .cancel-btn { color: var(--icon-primary); font-size: 1.2rem; }
+        #message-input-wrapper { display: flex; align-items: flex-end; width: 100%;}
+        #message-input-wrapper .icon-btn { font-size: 1.4rem; color: var(--icon-primary); padding: 10px; }
         #message-form { flex-grow: 1; display: flex; align-items: flex-end; background: var(--bg-secondary); border-radius: 24px; padding: 5px; min-height: 48px; }
         #message-input { flex-grow: 1; border: none; background: transparent; outline: none; color: var(--text-primary); font-size: 1rem; padding: 10px; max-height: 100px; overflow-y: auto; }
         #message-input:empty:before { content: "Type a message..."; color: var(--text-secondary); cursor: text; }
@@ -146,9 +179,12 @@
         #attachment-popup { position: absolute; bottom: 65px; left: 16px; background: var(--bg-secondary); border-radius: 8px; box-shadow: var(--shadow-primary); padding: 10px; display: none; flex-direction: column; gap: 5px; z-index: 10; }
         #attachment-popup.active { display: flex; }
         #attachment-popup button { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; width: 100%; text-align: left; color: var(--text-primary); }
-        #sticker-tray { position: absolute; bottom: 65px; left: 16px; right: 16px; background: var(--bg-secondary); border-radius: 8px; box-shadow: var(--shadow-primary); padding: 10px; display: none; flex-wrap: wrap; gap: 10px; z-index: 10; max-height: 200px; overflow-y: auto; }
-        #sticker-tray.active { display: flex; }
-        .sticker-item { width: 80px; height: 80px; object-fit: contain; cursor: pointer; }
+        #sticker-tray { position: absolute; bottom: 65px; left: 16px; right: 16px; background: var(--bg-secondary); border-radius: 8px; box-shadow: var(--shadow-primary); padding: 15px; display: none; z-index: 10; max-height: 300px; overflow-y: auto; }
+        #sticker-tray.active { display: block; }
+        #sticker-tray h4 { margin-bottom: 15px; font-weight: 500; color: var(--text-secondary); }
+        .sticker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; }
+        .sticker-item { width: 100%; height: 120px; object-fit: contain; cursor: pointer; transition: transform 0.2s; padding: 5px; border-radius: 8px; }
+        .sticker-item:hover { transform: scale(1.1); background: var(--bg-tertiary); }
         
         /* --- SIDEBAR --- */
         #sidebar { position: fixed; top: 0; left: 0; width: 80%; max-width: 320px; height: 100%; background: var(--bg-secondary); z-index: 1000; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 40px 20px; box-shadow: var(--shadow-primary); }
@@ -183,6 +219,11 @@
         .modal-button { width: 100%; padding: 15px; background: var(--brand-purple); color: white; border-radius: 10px; font-size: 1.1rem; font-weight: 500; cursor: pointer; }
         
         /* Specific Modal Styles */
+        #message-options-modal { display: none; position: fixed; z-index: 1200; background: var(--bg-secondary); border-radius: 8px; box-shadow: var(--shadow-primary); overflow: hidden; }
+        #message-options-modal button { display: flex; align-items: center; gap: 15px; padding: 12px 20px; width: 100%; text-align: left; color: var(--text-primary); font-size: 1rem; }
+        #message-options-modal button:hover { background: var(--bg-tertiary); }
+        #message-options-modal button i { width: 20px; text-align: center; color: var(--text-secondary); }
+
         .pfp-chooser { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .pfp-option { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 3px solid transparent; transition: border-color 0.2s; }
         .pfp-option.selected { border-color: var(--brand-purple); }
@@ -219,6 +260,7 @@
 <body class="light-theme">
 
     <div id="loader"><div class="spinner"></div></div>
+    <div id="reaction-picker"></div>
 
     <!-- Authentication -->
     <div id="auth-container">
@@ -282,19 +324,38 @@
                 </header>
                 <div id="message-area"></div>
                 <div id="message-input-container">
-                    <div style="position: relative;">
-                        <button class="icon-btn" id="attachment-btn"><i class="fa-solid fa-paperclip"></i></button>
-                        <div id="attachment-popup">
-                            <button id="upload-image-btn"><i class="fa-solid fa-image"></i> Image</button>
-                            <button id="send-sticker-btn"><i class="fa-solid fa-icons"></i> Sticker</button>
+                    <div id="reply-context-bar" class="context-bar">
+                        <div class="context-info">
+                            <div class="quote-sender"></div>
+                            <div class="quote-content"></div>
                         </div>
-                        <div id="sticker-tray"></div>
+                        <button id="cancel-reply-btn" class="cancel-btn"><i class="fa-solid fa-xmark"></i></button>
                     </div>
-                    <form id="message-form">
-                        <div id="message-input" contenteditable="true" role="textbox"></div>
-                        <button type="submit" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
-                    </form>
-                    <input type="file" id="image-upload-input" accept="image/*" style="display: none;">
+                    <div id="edit-context-bar" class="context-bar">
+                        <div class="context-info">
+                            <div class="quote-sender"><i class="fa-solid fa-pencil" style="margin-right: 8px;"></i>Editing message</div>
+                            <div class="quote-content"></div>
+                        </div>
+                        <button id="cancel-edit-btn" class="cancel-btn"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div id="message-input-wrapper">
+                        <div style="position: relative;">
+                            <button class="icon-btn" id="attachment-btn"><i class="fa-solid fa-paperclip"></i></button>
+                            <div id="attachment-popup">
+                                <button id="upload-image-btn"><i class="fa-solid fa-image"></i> Image</button>
+                                <button id="send-sticker-btn"><i class="fa-solid fa-icons"></i> Sticker</button>
+                            </div>
+                            <div id="sticker-tray">
+                                <h4>Send a Sticker</h4>
+                                <div class="sticker-grid"></div>
+                            </div>
+                        </div>
+                        <form id="message-form">
+                            <div id="message-input" contenteditable="true" role="textbox"></div>
+                            <button type="submit" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                        <input type="file" id="image-upload-input" accept="image/*" style="display: none;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -325,6 +386,12 @@
     </aside>
     
     <!-- Modals -->
+    <div id="message-options-modal">
+        <button id="reply-msg-btn"><i class="fa-solid fa-reply"></i> Reply</button>
+        <button id="edit-msg-btn"><i class="fa-solid fa-pencil"></i> Edit</button>
+        <button id="delete-msg-btn"><i class="fa-solid fa-trash-can"></i> Delete</button>
+    </div>
+
     <div id="profile-setup-modal" class="modal">
         <div class="modal-content">
             <h3>Set Up Your Profile</h3>
@@ -451,7 +518,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, set, get, onValue, push, serverTimestamp, update, remove, onChildChanged, onChildAdded, off } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, get, onValue, push, serverTimestamp, update, remove, onChildChanged, onChildAdded, onChildRemoved, off, onDisconnect } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         
         // --- CONFIGURATION ---
         const firebaseConfig = {
@@ -465,11 +532,17 @@
         };
         const IMGBB_API_KEY = "7184e56bb0953c0545409c441c402a66";
         const STICKER_URLS = [
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm91ZWN5eWptNThucG5wZTFjcHk4MXB2c21oZjN5dDI3bnR5aHgxYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MDJ9IbxxvDUQM/giphy.gif",
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExb214M3ZlZ295b2l0a3ZtcjV6M2tmeTFjNmJtOGNhaGNnNTBqcTdsbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/J39nKrhhY1kQc/giphy.gif",
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2R4OTVlZ2o3bjJjbWc3Z2c1eHl0dnd4M3M0c2ZudTJwZmpzMWJ0cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bWiy7wS2yJe6c/giphy.gif",
-            "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmNwbjJtcTZqaDd5ZzJqYjE0bXNzbXRmcWJ5ZXpkZzV2MGF0M29ieSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Vfie03v1vancA/giphy.gif"
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDJocmxkbTlyc2V2ajg0azl2Z3hzc3U3eXg0dTNpZHR3b3dyb2t1eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26gJAtomC0crO1fJm/giphy.gif", // Thumbs up
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXg1dmdwYm1jMWN1bXdrbmV6Z2U1a2dwbXNpcXJ1N2RrcG0wZWc2ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/M90mJvfWyd56w/giphy.gif", // Laughing
+            "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Y5bmR5Y2xuc2lud2tqYTJ0OXU3cnplajI4ajg4YnQ4N2s1NTd0cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/OPU6wIsU7A7sI/giphy.gif", // Crying
+            "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWZ2aGo1bWw3azZxdmN2ZzM4ZXVyYWNlNDJ1cWlsa3c1OHM5ZWlmdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l3q2K5jinAlChoCLS/giphy.gif", // Ok
+            "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2JocTBuYjZpdjdrd2V5MGE4eXNnbGU4aTR2dDRlM3NyY3d1aG1kayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/uU8IHAFG2Q3dANJit2/giphy.gif", // Thank you
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJkNWFocThmY201MjZ2bW5xZWV2b202cDFna3M3aWdudHFjNGQ5eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/1OK9h3YKk5L1K/giphy.gif", // Popcorn
+            "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNndxYTUxdXp1Mml3NWY0cDBwN2kzaTV2N3k5ODNsdXl3Z2l0OHQ0dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/3o7TKS6AWINqbg30A0/giphy.gif", // Bye
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnk3ZnN5NzdveG1zY3BhaHd1ZWtrdDdrZnhxZjhoc2R6dTZwMmYzaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Jlt69Ka6qK2cw/giphy.gif"  // Love
         ];
+        const QUICK_REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
+
 
         // --- GLOBAL STATE & VARIABLES ---
         const app = initializeApp(firebaseConfig);
@@ -480,7 +553,10 @@
         let currentUserProfile = null;
         let currentChatFriend = null;
         let allChatsData = {};
-        let activeListeners = { friends: null, requests: null, users: {}, chats: {}, currentChat: { messages: null, status: null, messageChanges: null }, call: null };
+        let activeListeners = { friends: null, requests: null, users: {}, chats: {}, currentChat: { messages: null, status: null, messageChanges: null, messageRemovals: null }, call: null };
+        let currentReplyInfo = null;
+        let currentEditInfo = null;
+        let longPressTimer;
 
         // --- DOM HELPERS ---
         const $ = (selector) => document.querySelector(selector);
@@ -491,7 +567,16 @@
         const hideLoader = () => $('#loader').style.display = 'none';
 
         // --- UTILITY FUNCTIONS ---
-        const formatTimestamp = (ts) => !ts ? '' : new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const formatTimestamp = (ts) => {
+            if (!ts) return '';
+            const date = new Date(ts);
+            const now = new Date();
+            const diff = now.getTime() - date.getTime();
+            const diffMinutes = Math.floor(diff / (1000 * 60));
+            if (diffMinutes < 1) return 'now';
+            if (diffMinutes < 60) return `${diffMinutes}m ago`;
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        };
         const uploadToImgBB = async (file) => {
             const formData = new FormData();
             formData.append('image', file);
@@ -518,6 +603,7 @@
                 get(ref(db, `users/${user.uid}`)).then(snapshot => {
                     if (snapshot.exists()) {
                         currentUserProfile = { ...snapshot.val(), uid: user.uid };
+                        setupPresenceSystem(user.uid);
                         initializeAppUI();
                     } else {
                         hideLoader();
@@ -530,27 +616,35 @@
             }
         });
 
+        // **NEW: Robust Presence System**
+        function setupPresenceSystem(uid) {
+            const userStatusRef = ref(db, `users/${uid}`);
+            onValue(ref(db, '.info/connected'), (snapshot) => {
+                if (snapshot.val() === false) {
+                    return; // Not connected.
+                }
+                onDisconnect(userStatusRef).update({
+                    online: false,
+                    lastSeen: serverTimestamp()
+                }).then(() => {
+                    update(userStatusRef, {
+                        online: true,
+                    });
+                });
+            });
+        }
+
         function resetUI() {
-            // Unsubscribe all listeners to prevent memory leaks
+            detachCurrentChatListeners();
             Object.values(activeListeners.users).forEach(unsub => unsub());
             Object.values(activeListeners.chats).forEach(unsub => unsub());
             if (activeListeners.friends) activeListeners.friends();
             if (activeListeners.requests) activeListeners.requests();
-            if (activeListeners.currentChat.messages) activeListeners.currentChat.messages();
-            if (activeListeners.currentChat.status) activeListeners.currentChat.status();
-            if (activeListeners.currentChat.messageChanges) activeListeners.currentChat.messageChanges();
             if (activeListeners.call) activeListeners.call();
-            
-            // Reset all state variables
             currentUser = null; currentUserProfile = null; allChatsData = {};
-            activeListeners = { friends: null, requests: null, users: {}, chats: {}, currentChat: { messages: null, status: null, messageChanges: null }, call: null };
-            
-            // Reset UI to login screen
-            $('#app-wrapper').style.opacity = '0';
-            $('#app-wrapper').style.visibility = 'hidden';
-            $('#auth-container').style.display = 'flex';
-            $('#login-form').style.display = 'block';
-            $('#register-form').style.display = 'none';
+            activeListeners = { friends: null, requests: null, users: {}, chats: {}, currentChat: { messages: null, status: null, messageChanges: null, messageRemovals: null }, call: null };
+            $('#app-wrapper').style.opacity = '0'; $('#app-wrapper').style.visibility = 'hidden';
+            $('#auth-container').style.display = 'flex'; $('#login-form').style.display = 'block'; $('#register-form').style.display = 'none';
             hideLoader();
         }
 
@@ -560,11 +654,11 @@
             $('#app-wrapper').style.opacity = '1';
             $('#app-wrapper').style.visibility = 'visible';
             updateSidebarUI();
-            update(ref(db, `users/${currentUser.uid}`), { online: true });
             listenForFriendRequests();
             listenForFriendsAndChats();
             listenForCalls();
             populateStickerTray();
+            handleKeyboard(); // Initialize keyboard handler
         }
         
         function updateSidebarUI() {
@@ -578,29 +672,21 @@
         $('#profile-pic-preview').addEventListener('click', () => $('#profile-pic-input').click());
         $('#profile-pic-input').addEventListener('change', e => e.target.files[0] && ($('#profile-pic-preview').src = URL.createObjectURL(e.target.files[0])));
         $('#profile-setup-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            showLoader();
+            e.preventDefault(); showLoader();
             const username = $('#username-input').value.trim().toLowerCase();
             const displayName = $('#display-name-input').value.trim();
             const pfpFile = $('#profile-pic-input').files[0];
             const errorEl = $('#profile-setup-error');
-
             if (!username || !displayName) { errorEl.textContent = 'All fields are required.'; hideLoader(); return; }
             if ((await get(ref(db, `usernames/${username}`))).exists()) { errorEl.textContent = 'Username is already taken.'; hideLoader(); return; }
-            
             const pfpUrl = pfpFile ? (await uploadToImgBB(pfpFile) || 'https://i.ibb.co/61YkWqr/default-avatar.png') : 'https://i.ibb.co/61YkWqr/default-avatar.png';
-            const userProfileData = { email: currentUser.email, username, displayName, pfp: pfpUrl, online: true, lastSeen: serverTimestamp() };
-
-            await update(ref(db), {
-                [`/users/${currentUser.uid}`]: userProfileData,
-                [`/usernames/${username}`]: currentUser.uid
-            });
-            
+            const userProfileData = { email: currentUser.email, username, displayName, pfp: pfpUrl };
+            await update(ref(db), { [`/users/${currentUser.uid}`]: userProfileData, [`/usernames/${username}`]: currentUser.uid });
             currentUserProfile = { ...userProfileData, uid: currentUser.uid };
             closeModal('profile-setup-modal');
+            setupPresenceSystem(currentUser.uid); // Setup presence on profile creation
             initializeAppUI();
         });
-        
         let selectedPfpUrl = null;
         function openSettingsModal() {
             closeSidebar();
@@ -611,7 +697,6 @@
             $$('.pfp-option').forEach(opt => opt.classList.toggle('selected', opt.dataset.url === selectedPfpUrl));
             showModal('settings-modal');
         }
-        
         $('.pfp-chooser').addEventListener('click', e => {
             if(e.target.classList.contains('pfp-option')) {
                 $$('.pfp-option').forEach(opt => opt.classList.remove('selected'));
@@ -624,10 +709,7 @@
                 showLoader();
                 const uploadedUrl = await uploadToImgBB(e.target.files[0]);
                 hideLoader();
-                if (uploadedUrl) {
-                    selectedPfpUrl = uploadedUrl;
-                    alert('Custom picture selected. Click "Save Changes".');
-                }
+                if (uploadedUrl) { selectedPfpUrl = uploadedUrl; alert('Custom picture selected. Click "Save Changes".'); }
             }
         });
         $('#settings-form').addEventListener('submit', async e => {
@@ -635,20 +717,15 @@
             const newDisplayName = $('#settings-display-name').value.trim();
             const newUsername = $('#settings-username').value.trim().toLowerCase();
             if (!newDisplayName || !newUsername) return;
-            
             const updates = {};
             if (newDisplayName !== currentUserProfile.displayName) updates[`/users/${currentUser.uid}/displayName`] = newDisplayName;
             if (selectedPfpUrl && selectedPfpUrl !== currentUserProfile.pfp) updates[`/users/${currentUser.uid}/pfp`] = selectedPfpUrl;
-            
             if (newUsername !== currentUserProfile.username) {
-                if ((await get(ref(db, `usernames/${newUsername}`))).exists()) {
-                    $('#settings-error').textContent = 'Username is already taken.'; return;
-                }
+                if ((await get(ref(db, `usernames/${newUsername}`))).exists()) { $('#settings-error').textContent = 'Username is already taken.'; return; }
                 updates[`/users/${currentUser.uid}/username`] = newUsername;
                 updates[`/usernames/${currentUserProfile.username}`] = null;
                 updates[`/usernames/${newUsername}`] = currentUser.uid;
             }
-
             if(Object.keys(updates).length > 0) {
                 await update(ref(db), updates);
                 currentUserProfile.displayName = newDisplayName;
@@ -667,7 +744,7 @@
         $('#login').addEventListener('submit', async (e) => { e.preventDefault(); showLoader(); await signInWithEmailAndPassword(auth, $('#login-email').value, $('#login-password').value).catch(err => { $('#login-error').textContent = err.message; hideLoader(); }); });
         $('#register').addEventListener('submit', async (e) => { e.preventDefault(); showLoader(); await createUserWithEmailAndPassword(auth, $('#register-email').value, $('#register-password').value).catch(err => { $('#register-error').textContent = err.message; hideLoader(); }); });
         $('#logout-btn').addEventListener('click', async () => {
-            await update(ref(db, `users/${currentUser.uid}`), { online: false, lastSeen: serverTimestamp() });
+            // onDisconnect will handle setting offline status. We just need to sign out.
             await signOut(auth);
         });
 
@@ -689,19 +766,18 @@
                 const friendUid = snapshot.val();
                 if ((await get(ref(db, `users/${currentUser.uid}/friends/${friendUid}`))).exists()) { alert("You are already friends."); return; }
                 await set(ref(db, `users/${friendUid}/friendRequests/${currentUser.uid}`), {
-                    fromUid: currentUser.uid, fromUsername: currentUserProfile.username,
-                    fromDisplayName: currentUserProfile.displayName, fromPfp: currentUserProfile.pfp,
+                    fromUid: currentUser.uid, fromUsername: currentUserProfile.username, fromDisplayName: currentUserProfile.displayName, fromPfp: currentUserProfile.pfp,
                 });
-                alert(`Friend request sent!`);
-                closeModal('add-friend-modal');
+                alert(`Friend request sent!`); closeModal('add-friend-modal');
             } else { alert(`User "${username}" not found.`); }
         });
-
         $('#notifications-btn').addEventListener('click', () => showModal('friend-requests-modal'));
         function listenForFriendRequests() {
-            activeListeners.requests = onValue(ref(db, `users/${currentUser.uid}/friendRequests`), (snapshot) => {
-                const requests = snapshot.val();
-                $('#friend-requests-list').innerHTML = ''; let count = 0;
+            const reqRef = ref(db, `users/${currentUser.uid}/friendRequests`);
+            if (activeListeners.requests) off(reqRef);
+            activeListeners.requests = onValue(reqRef, (snapshot) => {
+                const requests = snapshot.val(); let count = 0;
+                $('#friend-requests-list').innerHTML = '';
                 if (requests) {
                     Object.entries(requests).forEach(([uid, req]) => {
                         count++;
@@ -711,85 +787,64 @@
                     });
                 }
                 $('#no-friend-requests').style.display = count === 0 ? 'block' : 'none';
-                $('#friend-request-count').textContent = count;
-                $('#friend-request-count').style.display = count > 0 ? 'flex' : 'none';
+                $('#friend-request-count').textContent = count; $('#friend-request-count').style.display = count > 0 ? 'flex' : 'none';
             });
         }
         $('#friend-requests-list').addEventListener('click', async e => {
-            const button = e.target.closest('button[data-uid]');
-            if (!button) return;
+            const button = e.target.closest('button[data-uid]'); if (!button) return;
             const friendUid = button.dataset.uid;
             if (button.classList.contains('accept-btn')) {
                 const chatId = getChatId(currentUser.uid, friendUid);
                 await update(ref(db), {
-                    [`users/${currentUser.uid}/friends/${friendUid}`]: true,
-                    [`users/${friendUid}/friends/${currentUser.uid}`]: true,
-                    [`users/${currentUser.uid}/chats/${chatId}`]: true,
-                    [`users/${friendUid}/chats/${chatId}`]: true
+                    [`users/${currentUser.uid}/friends/${friendUid}`]: true, [`users/${friendUid}/friends/${currentUser.uid}`]: true,
+                    [`users/${currentUser.uid}/chats/${chatId}`]: true, [`users/${friendUid}/chats/${chatId}`]: true
                 });
             }
             await remove(ref(db, `users/${currentUser.uid}/friendRequests/${friendUid}`));
         });
 
-        // --- FRIEND & CHAT DATA LOADING (REBUILT & FIXED) ---
+        // --- FRIEND & CHAT DATA LOADING ---
         function listenForFriendsAndChats() {
             const friendsRef = ref(db, `users/${currentUser.uid}/friends`);
+            if(activeListeners.friends) off(friendsRef);
             activeListeners.friends = onValue(friendsRef, (snapshot) => {
                 const friendUids = snapshot.val() ? Object.keys(snapshot.val()) : [];
                 const currentlyListeningUids = Object.keys(activeListeners.users);
-                
                 currentlyListeningUids.forEach(uid => {
                     if (!friendUids.includes(uid)) {
                         activeListeners.users[uid]();
                         const chatId = getChatId(currentUser.uid, uid);
                         if(activeListeners.chats[chatId]) activeListeners.chats[chatId]();
-                        delete activeListeners.users[uid];
-                        delete activeListeners.chats[chatId];
-                        delete allChatsData[uid];
+                        delete activeListeners.users[uid]; delete activeListeners.chats[chatId]; delete allChatsData[uid];
                     }
                 });
-
                 friendUids.forEach(uid => {
                     if (!activeListeners.users[uid]) {
                         const chatId = getChatId(currentUser.uid, uid);
-                        activeListeners.users[uid] = onValue(ref(db, `users/${uid}`), (userSnap) => {
-                            allChatsData[uid] = { ...allChatsData[uid], friend: {...userSnap.val(), uid} };
-                            renderChatList();
-                        });
-                        activeListeners.chats[chatId] = onValue(ref(db, `chats/${chatId}`), (chatSnap) => {
-                            allChatsData[uid] = { ...allChatsData[uid], chat: chatSnap.val() || {} };
-                            renderChatList();
-                        });
+                        activeListeners.users[uid] = onValue(ref(db, `users/${uid}`), (userSnap) => { allChatsData[uid] = { ...allChatsData[uid], friend: {...userSnap.val(), uid} }; renderChatList(); });
+                        activeListeners.chats[chatId] = onValue(ref(db, `chats/${chatId}`), (chatSnap) => { allChatsData[uid] = { ...allChatsData[uid], chat: chatSnap.val() || {} }; renderChatList(); });
                     }
                 });
-
                 if (friendUids.length === 0) allChatsData = {};
                 renderChatList();
             });
         }
-
         function renderChatList(filter = '') {
-            const filteredData = Object.values(allChatsData).filter(data => 
-                data.friend && 
-                (!filter || data.friend.displayName.toLowerCase().includes(filter) || data.friend.username.toLowerCase().includes(filter))
-            );
+            const filteredData = Object.values(allChatsData).filter(data => data.friend && (!filter || data.friend.displayName.toLowerCase().includes(filter) || data.friend.username.toLowerCase().includes(filter)));
             const sortedChats = filteredData.sort((a, b) => (b.chat?.lastMessage?.timestamp || 0) - (a.chat?.lastMessage?.timestamp || 0));
-
             $('#chat-list').innerHTML = '';
             sortedChats.forEach(({ friend, chat }) => {
-                const lastMessage = chat?.lastMessage;
-                let lastMessageText = '...';
+                const lastMessage = chat?.lastMessage; let lastMessageText = '...';
                 if(lastMessage) {
-                    if(lastMessage.type === 'image') lastMessageText = '📷 Image';
+                    if (lastMessage.replyTo) lastMessageText = `↩️ Replied...`;
+                    else if(lastMessage.type === 'image') lastMessageText = '📷 Image';
                     else if(lastMessage.type === 'sticker') lastMessageText = '✨ Sticker';
                     else lastMessageText = lastMessage.content;
                 }
                 const unreadCount = chat?.unreadCount?.[currentUser.uid] || 0;
                 const item = document.createElement('div');
-                item.className = 'chat-item';
-                item.classList.toggle('online', friend.online);
-                item.dataset.uid = friend.uid;
-                item.innerHTML = `<div class="profile-pic-container"><img src="${friend.pfp}" class="profile-pic"></div><div class="chat-details"><div class="name-time"><span class="name">${friend.displayName}</span><span class="timestamp">${formatTimestamp(lastMessage?.timestamp)}</span></div><div class="last-message-container"><span class="last-message">${lastMessageText}</span>${unreadCount > 0 ? `<span class="unread-badge">${unreadCount}</span>` : ''}</div></div><button class="delete-chat-btn" data-friend-uid="${friend.uid}"><i class="fa-solid fa-trash-can"></i></button>`;
+                item.className = 'chat-item'; item.classList.toggle('online', friend.online); item.dataset.uid = friend.uid;
+                item.innerHTML = `<div class="profile-pic-container"><img src="${friend.pfp}" class="profile-pic"></div><div class="chat-details"><div class="name-time"><span class="name">${friend.displayName}</span><span class="timestamp">${friend.online ? '<span style="color:var(--brand-purple);">Online</span>' : formatTimestamp(friend.lastSeen)}</span></div><div class="last-message-container"><span class="last-message">${lastMessageText}</span>${unreadCount > 0 ? `<span class="unread-badge">${unreadCount}</span>` : ''}</div></div><button class="delete-chat-btn" data-friend-uid="${friend.uid}"><i class="fa-solid fa-trash-can"></i></button>`;
                 $('#chat-list').appendChild(item);
             });
         }
@@ -801,384 +856,411 @@
             const chatItem = e.target.closest('.chat-item');
             if (deleteBtn) {
                 e.stopPropagation();
-                if (confirm(`Are you sure you want to remove this friend?`)) {
+                if (confirm(`Are you sure you want to remove this friend? This will delete the chat history.`)) {
                     const friendUid = deleteBtn.dataset.friendUid;
+                    const chatId = getChatId(currentUser.uid, friendUid);
                     await update(ref(db), {
-                        [`/users/${currentUser.uid}/friends/${friendUid}`]: null,
-                        [`/users/${friendUid}/friends/${currentUser.uid}`]: null
+                        [`/users/${currentUser.uid}/friends/${friendUid}`]: null, [`/users/${friendUid}/friends/${currentUser.uid}`]: null,
+                        [`/chats/${chatId}`]: null, [`/messages/${chatId}`]: null
                     });
                 }
-            } else if (chatItem) {
-                openChatView(allChatsData[chatItem.dataset.uid].friend);
-            }
+            } else if (chatItem) { openChatView(allChatsData[chatItem.dataset.uid].friend); }
         });
+
+        function detachCurrentChatListeners() {
+            if (activeListeners.currentChat.messages) activeListeners.currentChat.messages();
+            if (activeListeners.currentChat.status) activeListeners.currentChat.status();
+            if (activeListeners.currentChat.messageChanges) activeListeners.currentChat.messageChanges();
+            if (activeListeners.currentChat.messageRemovals) activeListeners.currentChat.messageRemovals();
+        }
 
         function openChatView(friendData) {
             currentChatFriend = friendData;
             const chatId = getChatId(currentUser.uid, friendData.uid);
             $('#chat-profile-pic').src = friendData.pfp;
             $('#chat-name').textContent = friendData.displayName;
-
-            if (activeListeners.currentChat.messages) activeListeners.currentChat.messages();
-            if (activeListeners.currentChat.status) activeListeners.currentChat.status();
-            if (activeListeners.currentChat.messageChanges) activeListeners.currentChat.messageChanges();
+            detachCurrentChatListeners();
             $('#message-area').innerHTML = '';
-
-            activeListeners.currentChat.status = onValue(ref(db, `users/${friendData.uid}`), (snap) => $('#chat-status').textContent = snap.val().online ? 'Online' : `Last seen ${formatTimestamp(snap.val().lastSeen)}`);
-            
+            activeListeners.currentChat.status = onValue(ref(db, `users/${friendData.uid}`), (snap) => {
+                const friend = snap.val();
+                $('#chat-status').textContent = friend.online ? 'Online' : `Last seen ${formatTimestamp(friend.lastSeen)}`;
+            });
             const messagesRef = ref(db, `messages/${chatId}`);
             let isInitialLoad = true;
             activeListeners.currentChat.messages = onChildAdded(messagesRef, (snapshot) => {
                 const msg = { ...snapshot.val(), id: snapshot.key };
                 renderMessage(msg);
-                if (msg.senderId === friendData.uid && msg.status !== 'seen') {
-                    update(ref(db, `messages/${chatId}/${msg.id}`), { status: 'seen' });
-                }
+                if (msg.senderId === friendData.uid && msg.status !== 'seen') { update(ref(db, `messages/${chatId}/${msg.id}`), { status: 'seen' }); }
                 if (!isInitialLoad && msg.senderId === friendData.uid) $('#message-sound').play();
             });
             setTimeout(() => isInitialLoad = false, 1500);
-            
-            // Listener for message status changes (e.g., seen)
-            activeListeners.currentChat.messageChanges = onChildChanged(messagesRef, (snapshot) => {
-                updateRenderedMessage({ ...snapshot.val(), id: snapshot.key });
-            });
-
+            activeListeners.currentChat.messageChanges = onChildChanged(messagesRef, (snapshot) => updateRenderedMessage({ ...snapshot.val(), id: snapshot.key }));
+            activeListeners.currentChat.messageRemovals = onChildRemoved(messagesRef, (snapshot) => { const msgEl = $(`#message-${snapshot.key}`); if (msgEl) msgEl.remove(); });
             set(ref(db, `chats/${chatId}/unreadCount/${currentUser.uid}`), 0);
             $('#chat-view-container').classList.add('active');
         }
 
         function renderMessage(msg) {
+            if ($(`#message-${msg.id}`)) return;
             const isSent = msg.senderId === currentUser.uid;
             const container = document.createElement('div');
             container.className = `message-container ${isSent ? 'sent' : 'received'}`;
-            container.id = `message-${msg.id}`; // Add ID for easy selection
+            container.id = `message-${msg.id}`;
 
+            let replyHTML = '';
+            if (msg.replyTo) {
+                let replyContent = msg.replyTo.content;
+                if(msg.replyTo.type === 'image') replyContent = '📷 Image'; else if(msg.replyTo.type === 'sticker') replyContent = '✨ Sticker';
+                replyHTML = `<div class="reply-quote" data-scroll-to-id="${msg.replyTo.messageId}"><div class="quote-sender">${msg.replyTo.senderName}</div><div class="quote-content">${replyContent}</div></div>`;
+            }
             let contentHTML = '';
             switch(msg.type) {
                 case 'image': contentHTML = `<img src="${msg.content}" class="message-image" data-full-src="${msg.content}">`; break;
                 case 'sticker': contentHTML = `<img src="${msg.content}" class="message-sticker">`; break;
-                default: contentHTML = `<div class="message-content">${msg.content}</div>`;
+                default: contentHTML = `<div class="message-content-wrapper"><div class="message-content">${msg.content}</div></div>`;
             }
             const statusIcon = msg.status === 'seen' ? 'fa-check-double seen' : 'fa-check';
-            container.innerHTML = `<div class="message-bubble">${contentHTML}<div class="message-meta"><span>${formatTimestamp(msg.timestamp)}</span>${isSent ? `<i class="fa-solid ${statusIcon}"></i>` : ''}</div></div>`;
+            const editedIndicator = msg.edited ? '<span class="edited-indicator">(edited)</span>' : '';
+            
+            container.innerHTML = `
+                <div class="message-actions">
+                    <button class="message-actions-btn" data-msg-id="${msg.id}"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+                <div class="message-bubble">${replyHTML}${contentHTML}</div>
+                <div class="message-meta">${editedIndicator}<span>${formatTimestamp(msg.timestamp)}</span>${isSent ? `<i class="fa-solid ${statusIcon}"></i>` : ''}</div>
+                <div class="reactions-container"></div>`;
+            
             $('#message-area').insertBefore(container, $('#message-area').firstChild);
+            
+            container.querySelector('.message-actions-btn').onclick = e => showMessageOptions(e, msg);
+            
+            const bubble = container.querySelector('.message-bubble');
+            bubble.addEventListener('mousedown', e => {
+                if(e.button === 2) return;
+                longPressTimer = setTimeout(() => { showReactionPicker(e, msg.id) }, 500);
+            });
+            bubble.addEventListener('mouseup', () => clearTimeout(longPressTimer));
+            bubble.addEventListener('mouseleave', () => clearTimeout(longPressTimer));
+            bubble.addEventListener('contextmenu', e => { e.preventDefault(); showReactionPicker(e, msg.id); });
+
+            if(msg.reactions) renderReactions(msg.id, msg.reactions);
         }
 
         function updateRenderedMessage(msg) {
-            const msgEl = $(`#message-${msg.id} .message-meta .fa-solid`);
-            if (msgEl && msg.status === 'seen') {
-                msgEl.className = 'fa-solid fa-check-double seen';
+            const container = $(`#message-${msg.id}`); if (!container) return;
+            const isSent = msg.senderId === currentUser.uid;
+            
+            const contentWrapper = container.querySelector('.message-content-wrapper');
+            if(contentWrapper && msg.type === 'text') contentWrapper.querySelector('.message-content').textContent = msg.content;
+            
+            const meta = container.querySelector('.message-meta');
+            if(meta) {
+                const editedEl = meta.querySelector('.edited-indicator');
+                if (msg.edited && !editedEl) {
+                   const indicator = document.createElement('span'); indicator.className = 'edited-indicator'; indicator.textContent = '(edited)';
+                   meta.insertBefore(indicator, meta.firstChild);
+                } else if (!msg.edited && editedEl) {
+                    editedEl.remove();
+                }
+                
+                if (isSent) {
+                    const statusIcon = meta.querySelector('.fa-solid');
+                    if (statusIcon) statusIcon.className = `fa-solid ${msg.status === 'seen' ? 'fa-check-double seen' : 'fa-check'}`;
+                }
             }
+            if(msg.reactions) renderReactions(msg.id, msg.reactions);
+            else { const rContainer = container.querySelector('.reactions-container'); if(rContainer) rContainer.innerHTML = ''; }
         }
         
-        $('#message-form').addEventListener('submit', async e => { e.preventDefault(); sendMessage(); });
-        $('#message-input').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }});
+        $('#message-form').addEventListener('submit', async e => { e.preventDefault(); handleFormSubmit(); });
+        $('#message-input').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleFormSubmit(); }});
+
+        async function handleFormSubmit() {
+            if (currentEditInfo) {
+                const newContent = $('#message-input').innerText.trim();
+                await saveMessageEdit(currentEditInfo.id, currentEditInfo.originalContent, newContent);
+            } else {
+                await sendMessage();
+            }
+        }
 
         async function sendMessage(type = 'text', content = null) {
             const inputEl = $('#message-input');
             const messageContent = content || inputEl.innerText.trim();
             if (!messageContent || !currentChatFriend) return;
-            
             if(!content) inputEl.innerText = '';
-            
             const chatId = getChatId(currentUser.uid, currentChatFriend.uid);
             const messageData = { senderId: currentUser.uid, content: messageContent, timestamp: serverTimestamp(), type: type, status: 'sent' };
+            if (currentReplyInfo) { messageData.replyTo = currentReplyInfo; cancelReply(); }
+            const newMessageRef = push(ref(db, `messages/${chatId}`));
+            await set(newMessageRef, messageData);
             
-            await set(push(ref(db, `messages/${chatId}`)), messageData);
-            const unreadSnap = await get(ref(db, `chats/${chatId}/unreadCount/${currentChatFriend.uid}`));
             const lastMessageData = {...messageData};
             if(lastMessageData.content.length > 30) lastMessageData.content = lastMessageData.content.substring(0, 30) + "...";
-
+            const unreadSnap = await get(ref(db, `chats/${chatId}/unreadCount/${currentChatFriend.uid}`));
             await update(ref(db, `chats/${chatId}`), {
                 lastMessage: lastMessageData,
                 unreadCount: { ...((await get(ref(db, `chats/${chatId}/unreadCount`))).val()), [currentChatFriend.uid]: (unreadSnap.val() || 0) + 1 }
             });
         }
         
+        $('#back-to-chats-btn').addEventListener('click', () => { $('#chat-view-container').classList.remove('active'); currentChatFriend = null; detachCurrentChatListeners(); });
+        $('#message-area').addEventListener('click', e => {
+            const image = e.target.closest('.message-image');
+            const replyQuote = e.target.closest('.reply-quote');
+            if (image) { $('#image-modal-img').src = image.dataset.fullSrc; $('#download-image-btn').href = image.dataset.fullSrc; showModal('image-modal'); }
+            else if (replyQuote) { scrollToMessage(replyQuote.dataset.scrollToId); }
+        });
+        function scrollToMessage(messageId) {
+            const targetMessage = $(`#message-${messageId}`);
+            if (targetMessage) {
+                targetMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetMessage.classList.add('message-highlight');
+                setTimeout(() => targetMessage.classList.remove('message-highlight'), 2000);
+            } else { alert('Original message not found.'); }
+        }
+
+        // --- MESSAGE ACTIONS & REACTIONS ---
+        const messageOptionsMenu = $('#message-options-modal');
+        let selectedMessageForAction = null;
+
+        function showMessageOptions(event, msg) {
+            event.stopPropagation();
+            selectedMessageForAction = msg;
+            const isOwnMessage = msg.senderId === currentUser.uid;
+            $('#edit-msg-btn').style.display = isOwnMessage && msg.type === 'text' ? 'flex' : 'none';
+            $('#delete-msg-btn').style.display = isOwnMessage ? 'flex' : 'none';
+            messageOptionsMenu.style.display = 'block';
+            const menuRect = messageOptionsMenu.getBoundingClientRect();
+            let top = event.clientY; let left = event.clientX;
+            if (top + menuRect.height > window.innerHeight) top -= menuRect.height;
+            if (left + menuRect.width > window.innerWidth) left -= menuRect.width;
+            messageOptionsMenu.style.top = `${top}px`; messageOptionsMenu.style.left = `${left}px`;
+        }
+        
+        $('#reply-msg-btn').addEventListener('click', () => {
+            if (!selectedMessageForAction) return;
+            const senderName = selectedMessageForAction.senderId === currentUser.uid ? 'You' : currentChatFriend.displayName;
+            let contentPreview = selectedMessageForAction.content;
+            if (selectedMessageForAction.type !== 'text') contentPreview = selectedMessageForAction.type.charAt(0).toUpperCase() + selectedMessageForAction.type.slice(1);
+            currentReplyInfo = { messageId: selectedMessageForAction.id, senderName: senderName, content: contentPreview.substring(0, 50) + (contentPreview.length > 50 ? '...' : ''), type: selectedMessageForAction.type };
+            $('#reply-context-bar').classList.add('active');
+            $('#reply-context-bar .quote-sender').textContent = `Replying to ${senderName}`;
+            $('#reply-context-bar .quote-content').textContent = currentReplyInfo.content;
+            $('#message-input').focus();
+            hideMessageOptions();
+        });
+
+        $('#cancel-reply-btn').addEventListener('click', cancelReply);
+        function cancelReply() { currentReplyInfo = null; $('#reply-context-bar').classList.remove('active'); }
+
+        $('#edit-msg-btn').addEventListener('click', () => {
+            if (!selectedMessageForAction || selectedMessageForAction.type !== 'text') return;
+            cancelReply(); // Close reply bar if open
+            currentEditInfo = { id: selectedMessageForAction.id, originalContent: selectedMessageForAction.content };
+            const editBar = $('#edit-context-bar');
+            editBar.querySelector('.quote-content').textContent = selectedMessageForAction.content;
+            editBar.classList.add('active');
+            $('#message-input').innerText = selectedMessageForAction.content;
+            $('#message-input').focus();
+            $('#send-btn i').className = 'fa-solid fa-check';
+            hideMessageOptions();
+        });
+
+        $('#cancel-edit-btn').addEventListener('click', cancelEdit);
+        function cancelEdit() {
+            currentEditInfo = null;
+            $('#edit-context-bar').classList.remove('active');
+            $('#message-input').innerText = '';
+            $('#send-btn i').className = 'fa-solid fa-paper-plane';
+        }
+
+        async function saveMessageEdit(messageId, originalContent, newContent) {
+            cancelEdit();
+            if (newContent && newContent !== originalContent) {
+                const chatId = getChatId(currentUser.uid, currentChatFriend.uid);
+                await update(ref(db, `messages/${chatId}/${messageId}`), { content: newContent, edited: true });
+            }
+        }
+
+        $('#delete-msg-btn').addEventListener('click', async () => {
+            if (!selectedMessageForAction) return;
+            if (confirm('Are you sure you want to delete this message? This cannot be undone.')) {
+                const chatId = getChatId(currentUser.uid, currentChatFriend.uid);
+                await remove(ref(db, `messages/${chatId}/${selectedMessageForAction.id}`));
+            }
+            hideMessageOptions();
+        });
+
+        function showReactionPicker(event, messageId) {
+            event.stopPropagation();
+            const picker = $('#reaction-picker');
+            picker.innerHTML = QUICK_REACTIONS.map(emoji => `<span class="reaction-picker-emoji">${emoji}</span>`).join('');
+            picker.style.display = 'flex';
+            const pickerRect = picker.getBoundingClientRect();
+            let top = event.clientY - pickerRect.height - 10;
+            let left = event.clientX - (pickerRect.width / 2);
+            if (top < 10) top = event.clientY + 20;
+            if (left < 10) left = 10;
+            if (left + pickerRect.width > window.innerWidth) left = window.innerWidth - pickerRect.width - 10;
+            picker.style.top = `${top}px`; picker.style.left = `${left}px`;
+            picker.querySelectorAll('.reaction-picker-emoji').forEach(el => {
+                el.onclick = () => toggleReaction(messageId, el.textContent);
+            });
+        }
+        async function toggleReaction(messageId, emoji) {
+            const chatId = getChatId(currentUser.uid, currentChatFriend.uid);
+            const reactionRef = ref(db, `messages/${chatId}/${messageId}/reactions/${emoji}/${currentUser.uid}`);
+            const snapshot = await get(reactionRef);
+            if (snapshot.exists()) {
+                await remove(reactionRef);
+            } else {
+                await set(reactionRef, true);
+            }
+            $('#reaction-picker').style.display = 'none';
+        }
+        function renderReactions(messageId, reactions) {
+            const container = $(`#message-${messageId} .reactions-container`);
+            if (!container) return;
+            container.innerHTML = '';
+            for (const emoji in reactions) {
+                const users = reactions[emoji];
+                const count = Object.keys(users).length;
+                if(count > 0) {
+                    const reactionEl = document.createElement('button');
+                    reactionEl.className = 'reaction-item';
+                    reactionEl.innerHTML = `${emoji} <span class="reaction-count">${count}</span>`;
+                    if (users[currentUser.uid]) {
+                        reactionEl.classList.add('user-reacted');
+                    }
+                    reactionEl.onclick = () => toggleReaction(messageId, emoji);
+                    container.appendChild(reactionEl);
+                }
+            }
+        }
+        function hideMessageOptions() {
+            messageOptionsMenu.style.display = 'none';
+            selectedMessageForAction = null;
+        }
+
         // --- ATTACHMENT AND STICKER LOGIC ---
         const attachmentBtn = $('#attachment-btn');
         const attachmentPopup = $('#attachment-popup');
         const stickerTray = $('#sticker-tray');
-        attachmentBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            attachmentPopup.classList.toggle('active');
-            stickerTray.classList.remove('active');
-        });
-        $('#upload-image-btn').addEventListener('click', () => {
-            $('#image-upload-input').click();
-            attachmentPopup.classList.remove('active');
-        });
-        $('#send-sticker-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            stickerTray.classList.toggle('active');
-            attachmentPopup.classList.remove('active');
-        });
+        attachmentBtn.addEventListener('click', e => { e.stopPropagation(); attachmentPopup.classList.toggle('active'); stickerTray.classList.remove('active'); });
+        $('#upload-image-btn').addEventListener('click', () => { $('#image-upload-input').click(); attachmentPopup.classList.remove('active'); });
+        $('#send-sticker-btn').addEventListener('click', e => { e.stopPropagation(); stickerTray.classList.toggle('active'); attachmentPopup.classList.remove('active'); });
         $('#image-upload-input').addEventListener('change', async e => {
             if (e.target.files[0]) {
-                showLoader();
-                const imageUrl = await uploadToImgBB(e.target.files[0]);
-                hideLoader();
-                if (imageUrl) sendMessage('image', imageUrl);
-                e.target.value = ''; // Reset input
+                showLoader(); const imageUrl = await uploadToImgBB(e.target.files[0]); hideLoader();
+                if (imageUrl) sendMessage('image', imageUrl); e.target.value = '';
             }
         });
-        function populateStickerTray() {
-            stickerTray.innerHTML = STICKER_URLS.map(url => `<img src="${url}" class="sticker-item" alt="sticker">`).join('');
-        }
+        function populateStickerTray() { $('.sticker-grid').innerHTML = STICKER_URLS.map(url => `<img src="${url}" class="sticker-item" alt="sticker">`).join(''); }
         stickerTray.addEventListener('click', e => {
-            if (e.target.classList.contains('sticker-item')) {
-                sendMessage('sticker', e.target.src);
-                stickerTray.classList.remove('active');
-            }
-        });
-        document.addEventListener('click', () => {
-             attachmentPopup.classList.remove('active');
-             stickerTray.classList.remove('active');
-        });
-        
-        // --- IMAGE MODAL ---
-        $('#message-area').addEventListener('click', e => {
-            const image = e.target.closest('.message-image');
-            if (image) {
-                $('#image-modal-img').src = image.dataset.fullSrc;
-                $('#download-image-btn').href = image.dataset.fullSrc;
-                showModal('image-modal');
-            }
+            if (e.target.classList.contains('sticker-item')) { sendMessage('sticker', e.target.src); stickerTray.classList.remove('active'); }
         });
 
-        $('#back-to-chats-btn').addEventListener('click', () => {
-            $('#chat-view-container').classList.remove('active');
-            currentChatFriend = null;
-            if (activeListeners.currentChat.messages) activeListeners.currentChat.messages();
-            if (activeListeners.currentChat.status) activeListeners.currentChat.status();
-            if (activeListeners.currentChat.messageChanges) activeListeners.currentChat.messageChanges();
+        document.addEventListener('click', (e) => {
+            if (messageOptionsMenu.style.display === 'block' && !messageOptionsMenu.contains(e.target)) hideMessageOptions();
+            if ($('#reaction-picker').style.display === 'flex' && !$('#reaction-picker').contains(e.target) && !e.target.closest('.message-bubble')) $('#reaction-picker').style.display = 'none';
+            if (attachmentPopup.classList.contains('active') && !attachmentBtn.contains(e.target)) attachmentPopup.classList.remove('active');
+            if (stickerTray.classList.contains('active') && !$('#send-sticker-btn').contains(e.target) && !stickerTray.contains(e.target)) stickerTray.classList.remove('active');
         });
 
-        // --- WEBRTC CALLING (REVISED & FIXED) ---
-        let peerConnection;
-        let localStream;
-        let remoteStream;
-        let currentCallPartnerUid = null;
-        let callType = null;
+        // --- MOBILE KEYBOARD HANDLER ---
+        function handleKeyboard() {
+            const initialHeight = window.innerHeight;
+            window.addEventListener('resize', () => {
+                const messageArea = $('#message-area');
+                if (window.innerHeight < initialHeight && document.activeElement === $('#message-input')) {
+                    setTimeout(() => {
+                        messageArea.scrollTop = 0;
+                    }, 100);
+                }
+            });
+        }
+
+        // --- WEBRTC CALLING (Consolidated for efficiency) ---
+        let peerConnection, localStream, remoteStream, currentCallPartnerUid, callType;
         let callSignalingListeners = [];
-
         const stunServers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-        
-        async function initiateCall(type) {
-            if (!currentChatFriend || currentCallPartnerUid) {
-                alert("Cannot start a call right now. Either you're already in a call or no chat is selected.");
-                return;
-            }
-            showLoader();
-            
-            currentCallPartnerUid = currentChatFriend.uid;
-            callType = type;
-            
+        async function setupPeerConnection(callPartnerId, type) {
+            currentCallPartnerUid = callPartnerId; callType = type;
             peerConnection = new RTCPeerConnection(stunServers);
-            
-            // **FIX**: Create a new MediaStream for the remote user and assign it immediately.
-            remoteStream = new MediaStream();
-            $('#remote-video').srcObject = remoteStream;
-
-            // **FIX**: Add incoming tracks to the remoteStream individually.
-            peerConnection.ontrack = event => {
-                event.streams[0].getTracks().forEach(track => {
-                    remoteStream.addTrack(track);
-                });
-            };
-
-            localStream = await navigator.mediaDevices.getUserMedia({ video: callType === 'video', audio: true });
+            remoteStream = new MediaStream(); $('#remote-video').srcObject = remoteStream;
+            peerConnection.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
+            localStream = await navigator.mediaDevices.getUserMedia({ video: type === 'video', audio: true });
             $('#local-video').srcObject = localStream;
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-
-            peerConnection.onicecandidate = e => {
-                if (e.candidate) {
-                    set(push(ref(db, `calls/${currentCallPartnerUid}/iceCandidates`)), e.candidate.toJSON());
-                }
-            };
-
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-
-            const callData = {
-                callerId: currentUser.uid,
-                callerProfile: { displayName: currentUserProfile.displayName, pfp: currentUserProfile.pfp },
-                type: callType,
-                offer: { type: offer.type, sdp: offer.sdp }
-            };
-            await set(ref(db, `calls/${currentCallPartnerUid}`), callData);
-            
+            peerConnection.onicecandidate = e => e.candidate && set(push(ref(db, `calls/${currentCallPartnerUid}/iceCandidates`)), e.candidate.toJSON());
+        }
+        async function initiateCall(type) {
+            if (!currentChatFriend || currentCallPartnerUid) return;
+            showLoader(); await setupPeerConnection(currentChatFriend.uid, type);
+            const offer = await peerConnection.createOffer(); await peerConnection.setLocalDescription(offer);
+            await set(ref(db, `calls/${currentCallPartnerUid}`), {
+                callerId: currentUser.uid, callerProfile: { displayName: currentUserProfile.displayName, pfp: currentUserProfile.pfp }, type, offer: { type: offer.type, sdp: offer.sdp }
+            });
             const answerRef = ref(db, `calls/${currentUser.uid}/answer`);
-            const answerListener = onValue(answerRef, async (snap) => {
+            const answerListener = onValue(answerRef, async snap => {
                 if (snap.exists() && peerConnection && !peerConnection.currentRemoteDescription) {
-                    $('#call-sound').pause();
-                    await peerConnection.setRemoteDescription(new RTCSessionDescription(snap.val()));
-                    remove(answerRef); // Clean up the answer
-                    showCallUI(callType);
+                    $('#call-sound').pause(); await peerConnection.setRemoteDescription(new RTCSessionDescription(snap.val()));
+                    remove(answerRef); showCallUI(type);
                 }
             });
             callSignalingListeners.push({ ref: answerRef, type: 'value', func: answerListener });
-
             const iceRef = ref(db, `calls/${currentUser.uid}/iceCandidates`);
-            const iceListener = onChildAdded(iceRef, s => {
-                if (s.exists() && peerConnection) {
-                    peerConnection.addIceCandidate(new RTCIceCandidate(s.val()));
-                }
-            });
+            const iceListener = onChildAdded(iceRef, s => s.exists() && peerConnection && peerConnection.addIceCandidate(new RTCIceCandidate(s.val())));
             callSignalingListeners.push({ ref: iceRef, type: 'child_added', func: iceListener });
-
             const rejectionRef = ref(db, `calls/${currentCallPartnerUid}`);
-            const rejectionListener = onValue(rejectionRef, (snap) => {
-                 if(!snap.exists() && peerConnection && !peerConnection.currentRemoteDescription) {
-                     alert(`${currentChatFriend.displayName} is unavailable or rejected the call.`);
-                     endCall();
-                 }
-            });
+            const rejectionListener = onValue(rejectionRef, snap => { if (!snap.exists() && peerConnection && !peerConnection.currentRemoteDescription) { alert(`${currentChatFriend.displayName} is unavailable.`); endCall(); }});
             callSignalingListeners.push({ ref: rejectionRef, type: 'value', func: rejectionListener });
-
-            hideLoader();
-            $('#call-sound').play();
+            hideLoader(); $('#call-sound').play();
         }
-
         function listenForCalls() {
             const callListenerRef = ref(db, `calls/${currentUser.uid}`);
             activeListeners.call = onValue(callListenerRef, async (snap) => {
                 const callData = snap.val();
                 if (callData && callData.offer && !currentCallPartnerUid) {
-                    $('#incoming-call-pfp').src = callData.callerProfile.pfp;
-                    $('#incoming-call-name').textContent = callData.callerProfile.displayName;
+                    $('#incoming-call-pfp').src = callData.callerProfile.pfp; $('#incoming-call-name').textContent = callData.callerProfile.displayName;
                     $('#incoming-call-type').textContent = `Incoming ${callData.type} call...`;
-                    showModal('incoming-call-modal');
-                    $('#ringing-sound').play();
-                    
+                    showModal('incoming-call-modal'); $('#ringing-sound').play();
                     $('#accept-call-btn').onclick = () => answerCall(callData);
-                    $('#reject-call-btn').onclick = async () => {
-                        closeModal('incoming-call-modal');
-                        $('#ringing-sound').pause();
-                        $('#ringing-sound').currentTime = 0;
-                        await remove(callListenerRef);
-                    };
+                    $('#reject-call-btn').onclick = async () => { closeModal('incoming-call-modal'); $('#ringing-sound').pause(); $('#ringing-sound').currentTime = 0; await remove(callListenerRef); };
                 }
             });
         }
-        
         async function answerCall(callData) {
-            closeModal('incoming-call-modal');
-            $('#ringing-sound').pause();
+            closeModal('incoming-call-modal'); $('#ringing-sound').pause();
             if (currentCallPartnerUid) return;
-            showLoader();
-
-            currentCallPartnerUid = callData.callerId;
-            callType = callData.type;
-
-            peerConnection = new RTCPeerConnection(stunServers);
-
-            // **FIX**: Create a new MediaStream for the remote user and assign it immediately.
-            remoteStream = new MediaStream();
-            $('#remote-video').srcObject = remoteStream;
-
-            // **FIX**: Add incoming tracks to the remoteStream individually.
-            peerConnection.ontrack = event => {
-                event.streams[0].getTracks().forEach(track => {
-                    remoteStream.addTrack(track);
-                });
-            };
-            
-            localStream = await navigator.mediaDevices.getUserMedia({ video: callType === 'video', audio: true });
-            $('#local-video').srcObject = localStream;
-            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-
-            peerConnection.onicecandidate = e => {
-                if (e.candidate) {
-                    set(push(ref(db, `calls/${currentCallPartnerUid}/iceCandidates`)), e.candidate.toJSON());
-                }
-            };
-            
+            showLoader(); await setupPeerConnection(callData.callerId, callData.type);
             await peerConnection.setRemoteDescription(new RTCSessionDescription(callData.offer));
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            
+            const answer = await peerConnection.createAnswer(); await peerConnection.setLocalDescription(answer);
             await set(ref(db, `calls/${currentCallPartnerUid}/answer`), { type: answer.type, sdp: answer.sdp });
-            
             const iceRef = ref(db, `calls/${currentUser.uid}/iceCandidates`);
-            const iceListener = onChildAdded(iceRef, s => {
-                if (s.exists() && peerConnection) {
-                    peerConnection.addIceCandidate(new RTCIceCandidate(s.val()));
-                }
-            });
+            const iceListener = onChildAdded(iceRef, s => s.exists() && peerConnection && peerConnection.addIceCandidate(new RTCIceCandidate(s.val())));
             callSignalingListeners.push({ ref: iceRef, type: 'child_added', func: iceListener });
-
             const callEndRef = ref(db, `calls/${currentUser.uid}`);
-            const callEndListener = onValue(callEndRef, (snap) => {
-                 if(!snap.exists()) {
-                     endCall();
-                 }
-            });
+            const callEndListener = onValue(callEndRef, snap => !snap.exists() && endCall());
             callSignalingListeners.push({ ref: callEndRef, type: 'value', func: callEndListener });
-            
-            hideLoader();
-            showCallUI(callData.type);
+            hideLoader(); showCallUI(callData.type);
         }
-        
-        function showCallUI(type) {
-            showModal('call-ui-modal');
-            $('#toggle-cam-btn').style.display = type === 'video' ? 'flex' : 'none';
-        }
-
+        function showCallUI(type) { showModal('call-ui-modal'); $('#toggle-cam-btn').style.display = type === 'video' ? 'flex' : 'none'; }
         function endCall() {
             if (localStream) localStream.getTracks().forEach(track => track.stop());
-            // No need to stop remoteStream tracks, browser manages them
-            
-            if (peerConnection) {
-                peerConnection.ontrack = null;
-                peerConnection.onicecandidate = null;
-                peerConnection.close();
-                peerConnection = null;
-            }
-
-            $('#local-video').srcObject = null;
-            $('#remote-video').srcObject = null;
-            closeModal('call-ui-modal');
-            closeModal('incoming-call-modal');
-            $('#call-sound').pause(); 
-            $('#ringing-sound').pause();
-            $('#call-sound').currentTime = 0; 
-            $('#ringing-sound').currentTime = 0;
-
-            callSignalingListeners.forEach(listener => off(listener.ref, listener.type, listener.func));
-            callSignalingListeners = [];
-
+            if (peerConnection) { peerConnection.close(); peerConnection = null; }
+            $('#local-video').srcObject = null; $('#remote-video').srcObject = null;
+            closeModal('call-ui-modal'); closeModal('incoming-call-modal');
+            $('#call-sound').pause(); $('#ringing-sound').pause(); $('#call-sound').currentTime = 0; $('#ringing-sound').currentTime = 0;
+            callSignalingListeners.forEach(l => off(l.ref, l.type, l.func)); callSignalingListeners = [];
             if (currentCallPartnerUid) remove(ref(db, `calls/${currentCallPartnerUid}`));
             remove(ref(db, `calls/${currentUser.uid}`));
-
-            currentCallPartnerUid = null;
-            callType = null;
-            localStream = null;
-            remoteStream = null;
+            currentCallPartnerUid = null; callType = null; localStream = null; remoteStream = null;
         }
-
         $('#end-call-btn').addEventListener('click', endCall);
-
-        $('#toggle-mic-btn').addEventListener('click', () => {
-            if (!localStream) return;
-            const audioTrack = localStream.getAudioTracks()[0];
-            if (audioTrack) {
-                audioTrack.enabled = !audioTrack.enabled;
-                $('#toggle-mic-btn').classList.toggle('active', audioTrack.enabled);
-                $('#toggle-mic-btn i').className = `fa-solid ${audioTrack.enabled ? 'fa-microphone' : 'fa-microphone-slash'}`;
-            }
-        });
-
-        $('#toggle-cam-btn').addEventListener('click', () => {
-            if (!localStream) return;
-            const videoTrack = localStream.getVideoTracks()[0];
-            if (videoTrack) {
-                videoTrack.enabled = !videoTrack.enabled;
-                $('#toggle-cam-btn').classList.toggle('active', videoTrack.enabled);
-                $('#toggle-cam-btn i').className = `fa-solid ${videoTrack.enabled ? 'fa-video' : 'fa-video-slash'}`;
-            }
-        });
-
+        $('#toggle-mic-btn').addEventListener('click', () => { const track = localStream?.getAudioTracks()[0]; if (track) { track.enabled = !track.enabled; $('#toggle-mic-btn').classList.toggle('active', track.enabled); $('#toggle-mic-btn i').className = `fa-solid ${track.enabled ? 'fa-microphone' : 'fa-microphone-slash'}`; }});
+        $('#toggle-cam-btn').addEventListener('click', () => { const track = localStream?.getVideoTracks()[0]; if (track) { track.enabled = !track.enabled; $('#toggle-cam-btn').classList.toggle('active', track.enabled); $('#toggle-cam-btn i').className = `fa-solid ${track.enabled ? 'fa-video' : 'fa-video-slash'}`; }});
         $('#voice-call-btn').addEventListener('click', () => initiateCall('voice'));
         $('#video-call-btn').addEventListener('click', () => initiateCall('video'));
         
