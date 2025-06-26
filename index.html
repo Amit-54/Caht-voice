@@ -35,6 +35,8 @@
             --icon-primary: #54656f;
             --reaction-bg: #e9edef;
             --reaction-bg-active: var(--brand-purple-light);
+            --call-bg: #f0f2f5;
+            --call-text: #111b21;
         }
 
         .dark-theme {
@@ -51,6 +53,8 @@
             --icon-primary: #aebac1;
             --reaction-bg: #2a3942;
             --reaction-bg-active: var(--brand-purple);
+            --call-bg: #111b21;
+            --call-text: #e9edef;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -126,8 +130,8 @@
         #chat-header .chat-status { font-size: 0.8rem; color: var(--text-secondary); }
         #chat-header .icon-btn { font-size: 1.2rem; color: var(--icon-primary); margin-left: 10px; padding: 8px; border-radius: 50%; }
         #message-area { flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column-reverse; background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 400V0h400v400H0zM194 200v200h12V200h-12z'/%3E%3C/g%3E%3C/svg%3E"); }
-        .dark-theme #message-area { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ4OCwgMjAyMC8wNy8xMC0yMjowNjowNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIyLjAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NkY4ODhBMkY0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NkY4ODhBMzQ0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2Rjg4OEEyRDQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2Rjg4OEEyRTQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQ9+YAAAAFCSURBVHja7N3bAoAgEADBo+/+py2BVEpl/h7w5wSBj5W8lG03wz4z47wz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wz4/WR8CDAD1iRjDYo79hQAAAABJRU5ErkJggg=="); }
-        .message-container { display: flex; flex-direction: column; max-width: 75%; position: relative; padding: 0 8px; margin-bottom: 12px; }
+        .dark-theme #message-area { background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ4OCwgMjAyMC8wNy8xMC0yMjowNjowNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIyLjAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NkY4ODhBMkY0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NkY4ODhBMzQ0NDlDMTFFQzkxN0VGN0NCNzE0NzQ2QjIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo2Rjg4OEEyRDQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2Rjg4OEEyRTQ0OUMxMUVDOTE3RUY3Q0I3MTQ3NDZCMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQ9+YAAAAFCSURBVHja7N3bAoAgEADBo+/+py2BVEpl/h7w5wSBj5W8lG03wz4z47wz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wzYLwz4bwz4bwz4awzYLwz4awz4awz4bwzY7wz4/WR8CDAD1iRjDYo79hQAAAABJRU5ErkJggg=="); }
+        .message-container { display: flex; flex-direction: column; max-width: 75%; position: relative; padding: 0 8px; margin-bottom: 20px; }
         .message-container:hover .message-actions { opacity: 1; }
         .message-container.sent { align-self: flex-end; align-items: flex-end; }
         .message-container.received { align-self: flex-start; align-items: flex-start; }
@@ -149,7 +153,9 @@
         .message-container.sent .message-actions { left: -40px; }
         .message-container.received .message-actions { right: -40px; }
         .message-actions-btn { background: var(--bg-tertiary); color: var(--icon-primary); border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; box-shadow: var(--shadow-primary); }
-        .reactions-container { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+        .reactions-container { position: absolute; bottom: -12px; z-index: 2; display: flex; flex-wrap: wrap; gap: 4px; }
+        .message-container.sent .reactions-container { right: 8px; }
+        .message-container.received .reactions-container { left: 8px; }
         .reaction-item { background: var(--reaction-bg); border-radius: 10px; padding: 2px 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; cursor: pointer; border: 1px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .reaction-item.user-reacted { background: var(--reaction-bg-active); color: white; border-color: var(--brand-purple); }
         #reaction-picker { display: none; position: fixed; background: var(--bg-secondary); padding: 5px; border-radius: 20px; box-shadow: var(--shadow-primary); display: flex; gap: 5px; z-index: 1201; }
@@ -237,16 +243,25 @@
         .reject-btn { background-color: #f44336; }
 
         /* --- CALL UI --- */
-        .call-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: none; }
+        .call-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; }
         .call-modal.active { display: flex; }
-        #incoming-call-modal { justify-content: center; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
-        .incoming-call-box { background: var(--bg-secondary); padding: 40px; border-radius: 12px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
-        .incoming-call-box .profile-pic { width: 100px; height: 100px; margin: 0 auto 15px; border: 3px solid var(--brand-purple); }
-        #incoming-call-name { font-size: 1.5rem; font-weight: 600; }
-        #incoming-call-type { color: var(--text-secondary); margin-bottom: 30px; }
+        #incoming-call-modal { background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+        #outgoing-call-modal { background: var(--call-bg); }
+        .incoming-call-box, .outgoing-call-box { text-align: center; }
+        .incoming-call-box { background: var(--bg-secondary); padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        .call-pfp { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px; border: 4px solid var(--brand-purple); }
+        .call-name { font-size: 2rem; font-weight: 600; color: var(--call-text); }
+        .call-status { color: var(--text-secondary); margin-bottom: 60px; font-size: 1.2rem; }
+        .calling-animation span { display: inline-block; animation: bounce 1.4s infinite ease-in-out both; }
+        .calling-animation span:nth-child(1) { animation-delay: -0.32s; }
+        .calling-animation span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
         .call-actions button { width: 70px; height: 70px; border-radius: 50%; font-size: 1.8rem; color: white; margin: 0 20px; }
         #accept-call-btn { background: #4CAF50; }
-        #reject-call-btn { background: #f44336; }
+        #reject-call-btn, #cancel-outgoing-call-btn { background: #f44336; }
+        #toggle-precall-mic-btn { background: rgba(0,0,0,0.2); }
+        #toggle-precall-mic-btn.muted { background: var(--brand-purple); }
+        
         #call-ui-modal { background: #111; }
         #remote-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         #local-video { position: absolute; bottom: 20px; right: 20px; width: 25%; max-width: 180px; border-radius: 10px; border: 2px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5); transform: scaleX(-1); }
@@ -387,9 +402,9 @@
     
     <!-- Modals -->
     <div id="message-options-modal">
-        <button id="reply-msg-btn"><i class="fa-solid fa-reply"></i> Reply</button>
-        <button id="edit-msg-btn"><i class="fa-solid fa-pencil"></i> Edit</button>
-        <button id="delete-msg-btn"><i class="fa-solid fa-trash-can"></i> Delete</button>
+        <button data-action="reply"><i class="fa-solid fa-reply"></i> Reply</button>
+        <button data-action="edit"><i class="fa-solid fa-pencil"></i> Edit</button>
+        <button data-action="delete"><i class="fa-solid fa-trash-can"></i> Delete</button>
     </div>
 
     <div id="profile-setup-modal" class="modal">
@@ -490,12 +505,23 @@
     <!-- Call Modals -->
     <div id="incoming-call-modal" class="call-modal">
         <div class="incoming-call-box">
-            <img id="incoming-call-pfp" class="profile-pic" src="https://i.ibb.co/61YkWqr/default-avatar.png" alt="">
-            <h3 id="incoming-call-name"></h3>
-            <p id="incoming-call-type"></p>
+            <img id="incoming-call-pfp" class="call-pfp" src="https://i.ibb.co/61YkWqr/default-avatar.png" alt="">
+            <h3 id="incoming-call-name" class="call-name"></h3>
+            <p id="incoming-call-type" class="call-status"></p>
             <div class="call-actions">
                 <button id="reject-call-btn"><i class="fa-solid fa-phone-slash"></i></button>
                 <button id="accept-call-btn"><i class="fa-solid fa-phone"></i></button>
+            </div>
+        </div>
+    </div>
+    <div id="outgoing-call-modal" class="call-modal">
+        <div class="outgoing-call-box">
+            <img id="outgoing-call-pfp" class="call-pfp" src="https://i.ibb.co/61YkWqr/default-avatar.png" alt="">
+            <h3 id="outgoing-call-name" class="call-name"></h3>
+            <p id="outgoing-call-status" class="call-status">Calling</p>
+            <div class="call-actions">
+                <button id="toggle-precall-mic-btn"><i class="fa-solid fa-microphone"></i></button>
+                <button id="cancel-outgoing-call-btn"><i class="fa-solid fa-phone-slash"></i></button>
             </div>
         </div>
     </div>
@@ -924,11 +950,15 @@
             
             container.innerHTML = `
                 <div class="message-actions">
-                    <button class="message-actions-btn" data-msg-id="${msg.id}"><i class="fa-solid fa-ellipsis"></i></button>
+                    <button class="message-actions-btn"><i class="fa-solid fa-ellipsis"></i></button>
                 </div>
                 <div class="message-bubble">${replyHTML}${contentHTML}</div>
-                <div class="message-meta">${editedIndicator}<span>${formatTimestamp(msg.timestamp)}</span>${isSent ? `<i class="fa-solid ${statusIcon}"></i>` : ''}</div>
-                <div class="reactions-container"></div>`;
+                <div class="reactions-container"></div>
+                <div class="message-meta">
+                    ${editedIndicator}
+                    <span>${formatTimestamp(msg.timestamp)}</span>
+                    ${isSent ? `<i class="fa-solid ${statusIcon}"></i>` : ''}
+                </div>`;
             
             $('#message-area').insertBefore(container, $('#message-area').firstChild);
             
@@ -948,7 +978,6 @@
 
         function updateRenderedMessage(msg) {
             const container = $(`#message-${msg.id}`); if (!container) return;
-            const isSent = msg.senderId === currentUser.uid;
             
             const contentWrapper = container.querySelector('.message-content-wrapper');
             if(contentWrapper && msg.type === 'text') contentWrapper.querySelector('.message-content').textContent = msg.content;
@@ -958,12 +987,12 @@
                 const editedEl = meta.querySelector('.edited-indicator');
                 if (msg.edited && !editedEl) {
                    const indicator = document.createElement('span'); indicator.className = 'edited-indicator'; indicator.textContent = '(edited)';
-                   meta.insertBefore(indicator, meta.firstChild);
+                   meta.insertBefore(indicator, meta.children[0]);
                 } else if (!msg.edited && editedEl) {
                     editedEl.remove();
                 }
                 
-                if (isSent) {
+                if (msg.senderId === currentUser.uid) {
                     const statusIcon = meta.querySelector('.fa-solid');
                     if (statusIcon) statusIcon.className = `fa-solid ${msg.status === 'seen' ? 'fa-check-double seen' : 'fa-check'}`;
                 }
@@ -1022,14 +1051,30 @@
 
         // --- MESSAGE ACTIONS & REACTIONS ---
         const messageOptionsMenu = $('#message-options-modal');
-        let selectedMessageForAction = null;
-
         function showMessageOptions(event, msg) {
             event.stopPropagation();
-            selectedMessageForAction = msg;
             const isOwnMessage = msg.senderId === currentUser.uid;
-            $('#edit-msg-btn').style.display = isOwnMessage && msg.type === 'text' ? 'flex' : 'none';
-            $('#delete-msg-btn').style.display = isOwnMessage ? 'flex' : 'none';
+            
+            const editBtn = messageOptionsMenu.querySelector('[data-action="edit"]');
+            const deleteBtn = messageOptionsMenu.querySelector('[data-action="delete"]');
+            const replyBtn = messageOptionsMenu.querySelector('[data-action="reply"]');
+
+            // **FIXED: Clone and replace to remove old listeners**
+            const newEditBtn = editBtn.cloneNode(true);
+            editBtn.parentNode.replaceChild(newEditBtn, editBtn);
+            const newDeleteBtn = deleteBtn.cloneNode(true);
+            deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn);
+            const newReplyBtn = replyBtn.cloneNode(true);
+            replyBtn.parentNode.replaceChild(newReplyBtn, replyBtn);
+
+            newEditBtn.style.display = isOwnMessage && msg.type === 'text' ? 'flex' : 'none';
+            newDeleteBtn.style.display = isOwnMessage ? 'flex' : 'none';
+            
+            // **FIXED: Add specific listeners for this specific message**
+            newReplyBtn.addEventListener('click', () => handleReply(msg));
+            newEditBtn.addEventListener('click', () => handleEdit(msg));
+            newDeleteBtn.addEventListener('click', () => handleDelete(msg));
+            
             messageOptionsMenu.style.display = 'block';
             const menuRect = messageOptionsMenu.getBoundingClientRect();
             let top = event.clientY; let left = event.clientX;
@@ -1038,35 +1083,43 @@
             messageOptionsMenu.style.top = `${top}px`; messageOptionsMenu.style.left = `${left}px`;
         }
         
-        $('#reply-msg-btn').addEventListener('click', () => {
-            if (!selectedMessageForAction) return;
-            const senderName = selectedMessageForAction.senderId === currentUser.uid ? 'You' : currentChatFriend.displayName;
-            let contentPreview = selectedMessageForAction.content;
-            if (selectedMessageForAction.type !== 'text') contentPreview = selectedMessageForAction.type.charAt(0).toUpperCase() + selectedMessageForAction.type.slice(1);
-            currentReplyInfo = { messageId: selectedMessageForAction.id, senderName: senderName, content: contentPreview.substring(0, 50) + (contentPreview.length > 50 ? '...' : ''), type: selectedMessageForAction.type };
+        function handleReply(msg) {
+            hideMessageOptions();
+            cancelEdit();
+            const senderName = msg.senderId === currentUser.uid ? 'You' : currentChatFriend.displayName;
+            let contentPreview = msg.content;
+            if (msg.type !== 'text') contentPreview = msg.type.charAt(0).toUpperCase() + msg.type.slice(1);
+            currentReplyInfo = { messageId: msg.id, senderName, content: contentPreview.substring(0, 50) + (contentPreview.length > 50 ? '...' : ''), type: msg.type };
             $('#reply-context-bar').classList.add('active');
             $('#reply-context-bar .quote-sender').textContent = `Replying to ${senderName}`;
             $('#reply-context-bar .quote-content').textContent = currentReplyInfo.content;
             $('#message-input').focus();
+        }
+
+        function handleEdit(msg) {
             hideMessageOptions();
-        });
-
-        $('#cancel-reply-btn').addEventListener('click', cancelReply);
-        function cancelReply() { currentReplyInfo = null; $('#reply-context-bar').classList.remove('active'); }
-
-        $('#edit-msg-btn').addEventListener('click', () => {
-            if (!selectedMessageForAction || selectedMessageForAction.type !== 'text') return;
-            cancelReply(); // Close reply bar if open
-            currentEditInfo = { id: selectedMessageForAction.id, originalContent: selectedMessageForAction.content };
+            if (msg.type !== 'text') return;
+            cancelReply();
+            currentEditInfo = { id: msg.id, originalContent: msg.content };
             const editBar = $('#edit-context-bar');
-            editBar.querySelector('.quote-content').textContent = selectedMessageForAction.content;
+            editBar.querySelector('.quote-content').textContent = msg.content;
             editBar.classList.add('active');
-            $('#message-input').innerText = selectedMessageForAction.content;
+            $('#message-input').innerText = msg.content;
             $('#message-input').focus();
             $('#send-btn i').className = 'fa-solid fa-check';
-            hideMessageOptions();
-        });
+        }
 
+        async function handleDelete(msg) {
+            hideMessageOptions();
+            if (confirm('Are you sure you want to delete this message? This cannot be undone.')) {
+                const chatId = getChatId(currentUser.uid, currentChatFriend.uid);
+                await remove(ref(db, `messages/${chatId}/${msg.id}`));
+            }
+        }
+        
+        $('#cancel-reply-btn').addEventListener('click', cancelReply);
+        function cancelReply() { currentReplyInfo = null; $('#reply-context-bar').classList.remove('active'); }
+        
         $('#cancel-edit-btn').addEventListener('click', cancelEdit);
         function cancelEdit() {
             currentEditInfo = null;
@@ -1082,15 +1135,6 @@
                 await update(ref(db, `messages/${chatId}/${messageId}`), { content: newContent, edited: true });
             }
         }
-
-        $('#delete-msg-btn').addEventListener('click', async () => {
-            if (!selectedMessageForAction) return;
-            if (confirm('Are you sure you want to delete this message? This cannot be undone.')) {
-                const chatId = getChatId(currentUser.uid, currentChatFriend.uid);
-                await remove(ref(db, `messages/${chatId}/${selectedMessageForAction.id}`));
-            }
-            hideMessageOptions();
-        });
 
         function showReactionPicker(event, messageId) {
             event.stopPropagation();
@@ -1140,7 +1184,6 @@
         }
         function hideMessageOptions() {
             messageOptionsMenu.style.display = 'none';
-            selectedMessageForAction = null;
         }
 
         // --- ATTACHMENT AND STICKER LOGIC ---
@@ -1170,6 +1213,8 @@
 
         // --- MOBILE KEYBOARD HANDLER ---
         function handleKeyboard() {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (!isMobile) return;
             const initialHeight = window.innerHeight;
             window.addEventListener('resize', () => {
                 const messageArea = $('#message-area');
@@ -1190,14 +1235,28 @@
             peerConnection = new RTCPeerConnection(stunServers);
             remoteStream = new MediaStream(); $('#remote-video').srcObject = remoteStream;
             peerConnection.ontrack = e => e.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
-            localStream = await navigator.mediaDevices.getUserMedia({ video: type === 'video', audio: true });
+            const constraints = { video: type === 'video', audio: true };
+            localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            const precallMuteBtn = $('#toggle-precall-mic-btn');
+            if (precallMuteBtn && precallMuteBtn.classList.contains('muted')) {
+                localStream.getAudioTracks()[0].enabled = false;
+            }
             $('#local-video').srcObject = localStream;
             localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
             peerConnection.onicecandidate = e => e.candidate && set(push(ref(db, `calls/${currentCallPartnerUid}/iceCandidates`)), e.candidate.toJSON());
         }
         async function initiateCall(type) {
             if (!currentChatFriend || currentCallPartnerUid) return;
-            showLoader(); await setupPeerConnection(currentChatFriend.uid, type);
+            const outgoingModal = $('#outgoing-call-modal');
+            $('#outgoing-call-pfp').src = currentChatFriend.pfp;
+            $('#outgoing-call-name').textContent = currentChatFriend.displayName;
+            const statusText = $('#outgoing-call-status');
+            statusText.innerHTML = 'Calling<span>.</span><span>.</span><span>.</span>';
+            statusText.classList.add('calling-animation');
+            outgoingModal.classList.add('active');
+            $('#call-sound').play();
+
+            await setupPeerConnection(currentChatFriend.uid, type);
             const offer = await peerConnection.createOffer(); await peerConnection.setLocalDescription(offer);
             await set(ref(db, `calls/${currentCallPartnerUid}`), {
                 callerId: currentUser.uid, callerProfile: { displayName: currentUserProfile.displayName, pfp: currentUserProfile.pfp }, type, offer: { type: offer.type, sdp: offer.sdp }
@@ -1206,17 +1265,20 @@
             const answerListener = onValue(answerRef, async snap => {
                 if (snap.exists() && peerConnection && !peerConnection.currentRemoteDescription) {
                     $('#call-sound').pause(); await peerConnection.setRemoteDescription(new RTCSessionDescription(snap.val()));
-                    remove(answerRef); showCallUI(type);
+                    remove(answerRef);
+                    closeModal('outgoing-call-modal');
+                    showCallUI(type);
                 }
             });
             callSignalingListeners.push({ ref: answerRef, type: 'value', func: answerListener });
+            
             const iceRef = ref(db, `calls/${currentUser.uid}/iceCandidates`);
             const iceListener = onChildAdded(iceRef, s => s.exists() && peerConnection && peerConnection.addIceCandidate(new RTCIceCandidate(s.val())));
             callSignalingListeners.push({ ref: iceRef, type: 'child_added', func: iceListener });
+            
             const rejectionRef = ref(db, `calls/${currentCallPartnerUid}`);
-            const rejectionListener = onValue(rejectionRef, snap => { if (!snap.exists() && peerConnection && !peerConnection.currentRemoteDescription) { alert(`${currentChatFriend.displayName} is unavailable.`); endCall(); }});
+            const rejectionListener = onValue(rejectionRef, snap => { if (!snap.exists() && currentCallPartnerUid) endCall(); });
             callSignalingListeners.push({ ref: rejectionRef, type: 'value', func: rejectionListener });
-            hideLoader(); $('#call-sound').play();
         }
         function listenForCalls() {
             const callListenerRef = ref(db, `calls/${currentUser.uid}`);
@@ -1227,14 +1289,14 @@
                     $('#incoming-call-type').textContent = `Incoming ${callData.type} call...`;
                     showModal('incoming-call-modal'); $('#ringing-sound').play();
                     $('#accept-call-btn').onclick = () => answerCall(callData);
-                    $('#reject-call-btn').onclick = async () => { closeModal('incoming-call-modal'); $('#ringing-sound').pause(); $('#ringing-sound').currentTime = 0; await remove(callListenerRef); };
+                    $('#reject-call-btn').onclick = async () => { closeModal('incoming-call-modal'); $('#ringing-sound').pause(); await remove(callListenerRef); };
                 }
             });
         }
         async function answerCall(callData) {
             closeModal('incoming-call-modal'); $('#ringing-sound').pause();
             if (currentCallPartnerUid) return;
-            showLoader(); await setupPeerConnection(callData.callerId, callData.type);
+            await setupPeerConnection(callData.callerId, callData.type);
             await peerConnection.setRemoteDescription(new RTCSessionDescription(callData.offer));
             const answer = await peerConnection.createAnswer(); await peerConnection.setLocalDescription(answer);
             await set(ref(db, `calls/${currentCallPartnerUid}/answer`), { type: answer.type, sdp: answer.sdp });
@@ -1242,23 +1304,33 @@
             const iceListener = onChildAdded(iceRef, s => s.exists() && peerConnection && peerConnection.addIceCandidate(new RTCIceCandidate(s.val())));
             callSignalingListeners.push({ ref: iceRef, type: 'child_added', func: iceListener });
             const callEndRef = ref(db, `calls/${currentUser.uid}`);
-            const callEndListener = onValue(callEndRef, snap => !snap.exists() && endCall());
+            const callEndListener = onValue(callEndRef, snap => { if (!snap.exists()) endCall(); });
             callSignalingListeners.push({ ref: callEndRef, type: 'value', func: callEndListener });
-            hideLoader(); showCallUI(callData.type);
+            showCallUI(callData.type);
         }
-        function showCallUI(type) { showModal('call-ui-modal'); $('#toggle-cam-btn').style.display = type === 'video' ? 'flex' : 'none'; }
+        function showCallUI(type) { 
+            showModal('call-ui-modal'); 
+            $('#toggle-cam-btn').style.display = type === 'video' ? 'flex' : 'none'; 
+            if(localStream) {
+                $('#toggle-mic-btn').classList.toggle('active', localStream.getAudioTracks()[0].enabled);
+                $('#toggle-mic-btn i').className = `fa-solid ${localStream.getAudioTracks()[0].enabled ? 'fa-microphone' : 'fa-microphone-slash'}`;
+            }
+        }
         function endCall() {
             if (localStream) localStream.getTracks().forEach(track => track.stop());
             if (peerConnection) { peerConnection.close(); peerConnection = null; }
             $('#local-video').srcObject = null; $('#remote-video').srcObject = null;
-            closeModal('call-ui-modal'); closeModal('incoming-call-modal');
+            closeModal('call-ui-modal'); closeModal('incoming-call-modal'); closeModal('outgoing-call-modal');
             $('#call-sound').pause(); $('#ringing-sound').pause(); $('#call-sound').currentTime = 0; $('#ringing-sound').currentTime = 0;
             callSignalingListeners.forEach(l => off(l.ref, l.type, l.func)); callSignalingListeners = [];
+            if(currentChatFriend) $('#chat-status').textContent = currentChatFriend.online ? 'Online' : `Last seen ${formatTimestamp(currentChatFriend.lastSeen)}`;
             if (currentCallPartnerUid) remove(ref(db, `calls/${currentCallPartnerUid}`));
             remove(ref(db, `calls/${currentUser.uid}`));
             currentCallPartnerUid = null; callType = null; localStream = null; remoteStream = null;
         }
+        $('#cancel-outgoing-call-btn').addEventListener('click', endCall);
         $('#end-call-btn').addEventListener('click', endCall);
+        $('#toggle-precall-mic-btn').addEventListener('click', (e) => { e.currentTarget.classList.toggle('muted'); });
         $('#toggle-mic-btn').addEventListener('click', () => { const track = localStream?.getAudioTracks()[0]; if (track) { track.enabled = !track.enabled; $('#toggle-mic-btn').classList.toggle('active', track.enabled); $('#toggle-mic-btn i').className = `fa-solid ${track.enabled ? 'fa-microphone' : 'fa-microphone-slash'}`; }});
         $('#toggle-cam-btn').addEventListener('click', () => { const track = localStream?.getVideoTracks()[0]; if (track) { track.enabled = !track.enabled; $('#toggle-cam-btn').classList.toggle('active', track.enabled); $('#toggle-cam-btn i').className = `fa-solid ${track.enabled ? 'fa-video' : 'fa-video-slash'}`; }});
         $('#voice-call-btn').addEventListener('click', () => initiateCall('voice'));
