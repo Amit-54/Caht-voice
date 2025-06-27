@@ -148,19 +148,95 @@
         .message-sticker { max-width: 150px; max-height: 150px; }
         .message-highlight { background-color: var(--highlight-bg) !important; border-radius: 8px; transition: background-color 0.5s; }
         
-        /* Message Actions & Reactions */
-        .message-actions { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; opacity: 0; transition: opacity 0.2s; }
-        .message-container.sent .message-actions { left: -40px; }
-        .message-container.received .message-actions { right: -40px; }
-        .message-actions-btn { background: var(--bg-tertiary); color: var(--icon-primary); border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; box-shadow: var(--shadow-primary); }
-        .reactions-container { position: absolute; bottom: -12px; z-index: 2; display: flex; flex-wrap: wrap; gap: 4px; }
-        .message-container.sent .reactions-container { right: 8px; }
-        .message-container.received .reactions-container { left: 8px; }
-        .reaction-item { background: var(--reaction-bg); border-radius: 10px; padding: 2px 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; cursor: pointer; border: 1px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .reaction-item.user-reacted { background: var(--reaction-bg-active); color: white; border-color: var(--brand-purple); }
-        #reaction-picker { display: none; position: fixed; background: var(--bg-secondary); padding: 5px; border-radius: 20px; box-shadow: var(--shadow-primary); display: flex; gap: 5px; z-index: 1201; }
-        .reaction-picker-emoji { font-size: 1.5rem; padding: 5px; border-radius: 50%; cursor: pointer; transition: transform 0.2s; }
-        .reaction-picker-emoji:hover { transform: scale(1.2); }
+        /* Message Container */
+.message-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+  margin-bottom: 12px;
+}
+.message-container.sent {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+.message-container.received {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+/* Message Bubble */
+.message-bubble {
+  background: var(--bubble-bg);
+  border-radius: 12px;
+  padding: 10px 14px;
+  max-width: 100%;
+  position: relative;
+  word-wrap: break-word;
+  z-index: 1;
+}
+
+/* Fix for image messages */
+.message-bubble img {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Reactions container — embedded block */
+.reactions-container {
+  margin-top: -10px; /* 👈 overlaps slightly into message */
+  align-self: center;
+  display: flex;
+  gap: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--reaction-bg);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  z-index: 2;
+  position: relative;
+}
+
+/* Reaction Item */
+.reaction-item {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--reaction-bg);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.reaction-item.user-reacted {
+  background: var(--reaction-bg-active);
+  color: white;
+  border-color: var(--brand-purple);
+}
+
+/* Reaction Picker */
+#reaction-picker {
+  display: none;
+  position: fixed;
+  background: var(--bg-secondary);
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-primary);
+  display: flex;
+  gap: 5px;
+  z-index: 1201;
+}
+.reaction-picker-emoji {
+  font-size: 1.5rem;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.reaction-picker-emoji:hover {
+  transform: scale(1.2);
+}
 
         /* Reply & Edit Styles */
         .reply-quote, .edit-quote { background: rgba(0,0,0,0.05); padding: 8px; border-left: 3px solid var(--brand-purple); border-radius: 4px; margin-bottom: 5px; }
@@ -401,11 +477,12 @@
     </aside>
     
     <!-- Modals -->
-    <div id="message-options-modal">
-        <button data-action="reply"><i class="fa-solid fa-reply"></i> Reply</button>
-        <button data-action="edit"><i class="fa-solid fa-pencil"></i> Edit</button>
-        <button data-action="delete"><i class="fa-solid fa-trash-can"></i> Delete</button>
-    </div>
+    <div id="message-options-modal" class="message-options-modal">
+  <button data-action="reply"><i class="fa-solid fa-reply"></i> Reply</button>
+  <button data-action="copy"><i class="fa-solid fa-copy"></i> Copy</button>
+  <button data-action="edit"><i class="fa-solid fa-pen"></i> Edit</button>
+  <button data-action="delete"><i class="fa-solid fa-trash"></i> Delete</button>
+</div>
 
     <div id="profile-setup-modal" class="modal">
         <div class="modal-content">
@@ -495,7 +572,9 @@
     <div id="image-modal" class="modal">
         <div id="image-modal-content" style="padding:0; background:transparent; max-width:90vw; max-height:90vh;">
             <div style="position:absolute; top:15px; right:15px; display:flex; gap:10px;">
-                <a id="download-image-btn" href="#" download><button style="background:rgba(0,0,0,0.5); color:white; width:40px; height:40px; border-radius:50%; font-size:1.2rem; display:flex; justify-content:center; align-items:center;"><i class="fa-solid fa-download"></i></button></a>
+                <button id="download-image-btn" style="background:rgba(0,0,0,0.5); color:white; width:40px; height:40px; border-radius:50%; font-size:1.2rem; display:flex; justify-content:center; align-items:center;">
+  <i class="fa-solid fa-download"></i>
+</button>
                 <button class="modal-close" style="position:static; background:rgba(0,0,0,0.5); color:white; width:40px; height:40px; border-radius:50%; font-size:1.2rem; display:flex; justify-content:center; align-items:center;"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <img id="image-modal-img" src="" style="max-width:100%; max-height:100%; display:block; border-radius:8px;">
@@ -1058,6 +1137,10 @@
             const editBtn = messageOptionsMenu.querySelector('[data-action="edit"]');
             const deleteBtn = messageOptionsMenu.querySelector('[data-action="delete"]');
             const replyBtn = messageOptionsMenu.querySelector('[data-action="reply"]');
+            const copyBtn = messageOptionsMenu.querySelector('[data-action="copy"]');
+const newCopyBtn = copyBtn.cloneNode(true);
+copyBtn.parentNode.replaceChild(newCopyBtn, copyBtn);
+newCopyBtn.addEventListener('click', () => handleCopy(msg));
 
             // **FIXED: Clone and replace to remove old listeners**
             const newEditBtn = editBtn.cloneNode(true);
@@ -1335,6 +1418,40 @@
         $('#toggle-cam-btn').addEventListener('click', () => { const track = localStream?.getVideoTracks()[0]; if (track) { track.enabled = !track.enabled; $('#toggle-cam-btn').classList.toggle('active', track.enabled); $('#toggle-cam-btn i').className = `fa-solid ${track.enabled ? 'fa-video' : 'fa-video-slash'}`; }});
         $('#voice-call-btn').addEventListener('click', () => initiateCall('voice'));
         $('#video-call-btn').addEventListener('click', () => initiateCall('video'));
+        document.getElementById('download-image-btn').addEventListener('click', async function () {
+  const img = document.getElementById('image-modal-img');
+  const imageUrl = img.src;
+  const fileName = `chat_image_${Date.now()}.jpg`;
+
+  try {
+    const response = await fetch(imageUrl, { mode: 'cors' });
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  } catch (err) {
+    alert("❌ Download failed. Server may not allow it.");
+    console.error(err);
+  }
+});
+function handleCopy(msg) {
+  hideMessageOptions(); // close the popup
+  const textToCopy = msg.content || '';
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => {
+      alert("✅ Message copied to clipboard");
+    })
+    .catch(err => {
+      alert("❌ Failed to copy message");
+      console.error(err);
+    });
+}
         
         // --- APP INITIALIZATION ---
         applyInitialTheme();
