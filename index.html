@@ -761,186 +761,6 @@ body.dark-theme #custom-confirm-no:hover {
     popup.style.display = 'flex';
   };
 </script>
-<!-- Add this block after your <script type="module"> -->
-
-<script>
-// ====== WebRTC + Firebase Signaling for Voice & Video Calls ======
-
-// --- Global Variables ---
-let rtcLocalStream = null;
-let rtcRemoteStream = null;
-let rtcPeerConnection = null;
-const rtcServers = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
-let rtcCallType = null;
-let rtcSignalingListener = null;
-let rtcChatId = null;
-let rtcIsCaller = false;
-
-// --- DOM Shortcuts ---
-const get = id => document.getElementById(id);
-
-// --- Utility: Get Chat ID (compatible with your logic) ---
-function getRtcChatId() {
-  if (!window.currentUser || !window.currentChatFriend) return null;
-  const [a, b] = [window.currentUser.uid, window.currentChatFriend.uid];
-  return a < b ? `${a}_${b}` : `${b}_${a}`;
-}
-
-// --- Attach Call Button Events ---
-get('voice-call-btn').onclick = () => rtcStartCall('voice');
-get('video-call-btn').onclick = () => rtcStartCall('video');
-get('accept-call-btn').onclick = () => rtcAcceptCall();
-get('reject-call-btn').onclick = get('cancel-outgoing-call-btn').onclick = get('end-call-btn').onclick = () => rtcEndCall();
-
-// --- Start Outgoing Call ---
-async function rtcStartCall(callType) {
-  rtcCallType = callType;
-  rtcIsCaller = true;
-  rtcChatId = getRtcChatId();
-  if (!rtcChatId) { alert('Could not determine chat'); return; }
-
-  await rtcSetupLocalStream(callType);
-  rtcShowModal('outgoing-call-modal');
-
-  rtcPeerConnection = rtcCreatePeerConnection();
-
-  rtcLocalStream.getTracks().forEach(track => rtcPeerConnection.addTrack(track, rtcLocalStream));
-
-  const offer = await rtcPeerConnection.createOffer();
-  await rtcPeerConnection.setLocalDescription(offer);
-
-  rtcSendSignal({ type: "offer", offer, callType, sender: window.currentUser.uid });
-
-  rtcListenSignaling();
-}
-
-// --- Accept Incoming Call ---
-async function rtcAcceptCall() {
-  rtcIsCaller = false;
-  rtcChatId = getRtcChatId();
-  if (!rtcChatId) { alert('Could not determine chat'); return; }
-
-  rtcShowModal('call-ui-modal');
-  rtcHideModal('incoming-call-modal');
-
-  await rtcSetupLocalStream(rtcCallType);
-
-  rtcPeerConnection = rtcCreatePeerConnection();
-  rtcLocalStream.getTracks().forEach(track => rtcPeerConnection.addTrack(track, rtcLocalStream));
-
-  // Set remote offer (might be pending if offer arrived before UI was ready)
-  if (window._rtcPendingOffer) {
-    await rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(window._rtcPendingOffer));
-    window._rtcPendingOffer = null;
-    const answer = await rtcPeerConnection.createAnswer();
-    await rtcPeerConnection.setLocalDescription(answer);
-    rtcSendSignal({ type: "answer", answer, sender: window.currentUser.uid });
-  }
-}
-
-// --- Peer Connection Factory ---
-function rtcCreatePeerConnection() {
-  const pc = new RTCPeerConnection(rtcServers);
-
-  pc.ontrack = event => {
-    if (!rtcRemoteStream) {
-      rtcRemoteStream = new MediaStream();
-      get('remote-video').srcObject = rtcRemoteStream;
-    }
-    event.streams[0].getTracks().forEach(track => rtcRemoteStream.addTrack(track));
-  };
-
-  pc.onicecandidate = e => {
-    if (e.candidate) rtcSendSignal({ type: "ice", candidate: e.candidate, sender: window.currentUser.uid });
-  };
-
-  return pc;
-}
-
-// --- Setup Local Media ---
-async function rtcSetupLocalStream(type) {
-  if (rtcLocalStream) return;
-  try {
-    rtcLocalStream = await navigator.mediaDevices.getUserMedia({
-      video: type === "video",
-      audio: true
-    });
-    get('local-video').srcObject = rtcLocalStream;
-    get('local-video').style.display = type === "video" ? "block" : "none";
-  } catch (err) {
-    alert("Could not access camera/mic: " + err.message);
-    rtcEndCall();
-  }
-}
-
-// --- Signaling: Send and Listen ---
-function rtcSendSignal(data) {
-  if (!rtcChatId) rtcChatId = getRtcChatId();
-  if (!rtcChatId) return;
-  const db = window.firebase?.database?.();
-  if (!db) return;
-  db.ref(`calls/${rtcChatId}/signals`).push(data);
-}
-
-function rtcListenSignaling() {
-  if (!rtcChatId) rtcChatId = getRtcChatId();
-  const db = window.firebase?.database?.();
-  if (!db) return;
-  const refPath = db.ref(`calls/${rtcChatId}/signals`);
-  if (rtcSignalingListener) refPath.off('child_added', rtcSignalingListener);
-
-  rtcSignalingListener = refPath.on('child_added', async snap => {
-    const data = snap.val();
-    if (!data || data.sender === window.currentUser.uid) return;
-
-    if (data.type === "offer") {
-      rtcCallType = data.callType || "video";
-      window._rtcPendingOffer = data.offer;
-      rtcShowModal('incoming-call-modal');
-      rtcHideModal('call-ui-modal');
-      // Set caller info in modal if needed (name, pic, etc.)
-    } else if (data.type === "answer" && rtcPeerConnection) {
-      await rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
-      rtcShowModal('call-ui-modal');
-      rtcHideModal('outgoing-call-modal');
-    } else if (data.type === "ice" && rtcPeerConnection) {
-      try {
-        await rtcPeerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
-      } catch (err) {}
-    }
-  });
-}
-
-// --- End/Reject Call and Cleanup ---
-function rtcEndCall() {
-  rtcHideModal('incoming-call-modal');
-  rtcHideModal('outgoing-call-modal');
-  rtcHideModal('call-ui-modal');
-
-  if (rtcLocalStream) {
-    rtcLocalStream.getTracks().forEach(track => track.stop());
-    rtcLocalStream = null;
-  }
-  if (rtcRemoteStream) {
-    rtcRemoteStream.getTracks().forEach(track => track.stop());
-    rtcRemoteStream = null;
-  }
-  if (rtcPeerConnection) {
-    rtcPeerConnection.close();
-    rtcPeerConnection = null;
-  }
-
-  const db = window.firebase?.database?.();
-  if (rtcChatId && db) db.ref(`calls/${rtcChatId}/signals`).remove();
-}
-
-// --- Helpers for Modal Show/Hide ---
-function rtcShowModal(id) { get(id)?.classList.add('active'); }
-function rtcHideModal(id) { get(id)?.classList.remove('active'); }
-
-// --- Auto-listen for signaling when UI/chat loaded ---
-document.addEventListener('DOMContentLoaded', rtcListenSignaling);
-</script>
 <script>
   window.confirm = function(message) {
     return new Promise((resolve) => {
@@ -1017,8 +837,6 @@ document.addEventListener('DOMContentLoaded', rtcListenSignaling);
   "https://media.tenor.com/wqgKuRHvUkMAAAAd/zavarius-zavarius-teddy.gif"
 ];
         const QUICK_REACTIONS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
-        
-        
 
 
         // --- GLOBAL STATE & VARIABLES ---
@@ -1055,6 +873,7 @@ document.addEventListener('DOMContentLoaded', rtcListenSignaling);
             return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         };
         
+        // --- [MODIFICATION 1/3] ADDED: New function to format date separators ---
         const formatDateSeparator = (timestamp) => {
             const date = new Date(timestamp);
             const today = new Date();
@@ -1385,6 +1204,7 @@ $('#chat-list').addEventListener('click', async e => {
             if (activeListeners.currentChat.messageRemovals) activeListeners.currentChat.messageRemovals();
         }
 
+        // --- [MODIFICATION 2/3] MODIFIED: Function updated to handle date tracking ---
         function openChatView(friendData) {
             currentChatFriend = friendData;
             const chatId = getChatId(currentUser.uid, friendData.uid);
@@ -1414,6 +1234,7 @@ $('#chat-list').addEventListener('click', async e => {
             $('#chat-view-container').classList.add('active');
         }
 
+        // --- [MODIFICATION 3/3] MODIFIED: Function updated to render date separators ---
         function renderMessage(msg, lastDate) {
             if ($(`#message-${msg.id}`)) return lastDate; // Don't re-render, return same date
             
